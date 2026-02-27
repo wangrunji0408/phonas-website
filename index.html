@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phonas - Photos for NAS</title>
+    <meta name="description" content="Phonas - 通过SMB连接NAS，以相册形式浏览照片。无需服务端，快速加载，原生画质。">
+    <link rel="icon" type="image/png" href="icon.png">
+    <style>
+        :root {
+            --accent: #4A90D9;
+            --bg: #0a0a0a;
+            --card-bg: rgba(255,255,255,0.05);
+            --card-border: rgba(255,255,255,0.1);
+            --text: #f0f0f0;
+            --text-secondary: #a0a0a0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .lang-hidden { display: none !important; }
+
+        /* Nav */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 100;
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            background: rgba(10,10,10,0.8);
+            border-bottom: 1px solid var(--card-border);
+        }
+        nav .container {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px 24px; max-width: 1200px; margin: 0 auto;
+        }
+        nav .logo {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 20px; font-weight: 700;
+        }
+        nav .logo img { width: 32px; height: 32px; border-radius: 8px; }
+        nav .nav-links { display: flex; gap: 24px; align-items: center; }
+        nav a { color: var(--text-secondary); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+        nav a:hover { color: var(--text); }
+        .lang-switch {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            color: var(--text); padding: 6px 12px; border-radius: 8px;
+            cursor: pointer; font-size: 13px;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 160px 24px 80px;
+            text-align: center;
+            background: radial-gradient(ellipse at 50% 0%, rgba(74,144,217,0.15) 0%, transparent 60%);
+        }
+        .hero-icon {
+            width: 120px; height: 120px; border-radius: 28px;
+            margin-bottom: 32px;
+            box-shadow: 0 20px 60px rgba(74,144,217,0.3);
+        }
+        .hero h1 {
+            font-size: 56px; font-weight: 800; letter-spacing: -1px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #fff, #4A90D9);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero .tagline {
+            font-size: 22px; color: var(--text-secondary);
+            max-width: 600px; margin: 0 auto 40px;
+        }
+        .cta-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--accent); color: #fff;
+            padding: 14px 32px; border-radius: 14px;
+            text-decoration: none; font-size: 17px; font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(74,144,217,0.4);
+        }
+        .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(74,144,217,0.5); }
+        .cta-btn svg { width: 20px; height: 20px; }
+
+        /* Screenshots */
+        .screenshots {
+            padding: 40px 24px 80px;
+            max-width: 1200px; margin: 0 auto;
+        }
+        .screenshots h2 {
+            text-align: center; font-size: 36px; font-weight: 700;
+            margin-bottom: 48px;
+        }
+        .screenshot-row {
+            display: flex; gap: 24px; justify-content: center;
+            flex-wrap: wrap;
+        }
+        .screenshot-placeholder {
+            width: 200px; height: 433px;
+            background: var(--card-bg);
+            border: 2px dashed var(--card-border);
+            border-radius: 24px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-secondary); font-size: 14px;
+            flex-shrink: 0;
+        }
+        .screenshot-placeholder.ipad {
+            width: 360px; height: 270px;
+            border-radius: 16px;
+        }
+
+        /* Features */
+        .features {
+            padding: 80px 24px;
+            max-width: 1200px; margin: 0 auto;
+        }
+        .features > h2 {
+            text-align: center; font-size: 36px; font-weight: 700;
+            margin-bottom: 60px;
+        }
+        .features-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px; padding: 36px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .feature-card:hover { transform: translateY(-4px); border-color: rgba(74,144,217,0.3); }
+        .feature-icon { font-size: 40px; margin-bottom: 16px; }
+        .feature-card h3 { font-size: 22px; font-weight: 600; margin-bottom: 10px; }
+        .feature-card p { color: var(--text-secondary); font-size: 16px; line-height: 1.7; }
+
+        /* Pricing */
+        .pricing {
+            padding: 80px 24px;
+            text-align: center;
+        }
+        .pricing > h2 { font-size: 36px; font-weight: 700; margin-bottom: 16px; }
+        .pricing .subtitle { color: var(--text-secondary); font-size: 18px; margin-bottom: 48px; }
+        .price-card {
+            max-width: 420px; margin: 0 auto;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px; padding: 48px;
+        }
+        .price-card .trial { font-size: 16px; color: var(--accent); font-weight: 500; margin-bottom: 24px; }
+        .price-card .price { font-size: 48px; font-weight: 800; margin-bottom: 8px; }
+        .price-card .price-note { color: var(--text-secondary); font-size: 14px; margin-bottom: 32px; }
+
+        /* FAQ / Support */
+        .support {
+            padding: 80px 24px;
+            max-width: 900px; margin: 0 auto;
+        }
+        .support > h2 {
+            text-align: center; font-size: 36px; font-weight: 700;
+            margin-bottom: 48px;
+        }
+        .faq-item {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: 16px; padding: 24px; margin-bottom: 16px;
+        }
+        .faq-item h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
+        .faq-item p { color: var(--text-secondary); font-size: 16px; margin-bottom: 0; }
+        .support .contact { text-align: center; margin-top: 40px; }
+        .support .contact p { color: var(--text-secondary); font-size: 16px; }
+        .support .contact a { color: var(--accent); text-decoration: none; }
+
+        /* Footer */
+        footer {
+            padding: 40px 24px;
+            border-top: 1px solid var(--card-border);
+            text-align: center; color: var(--text-secondary); font-size: 13px;
+        }
+        footer a { color: var(--text-secondary); text-decoration: none; }
+        footer a:hover { color: var(--text); }
+        footer .links { margin-bottom: 12px; display: flex; justify-content: center; gap: 24px; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 36px; }
+            .hero .tagline { font-size: 18px; }
+            .features-grid { grid-template-columns: 1fr; }
+            .price-card .price { font-size: 36px; }
+            .screenshot-placeholder { width: 160px; height: 347px; }
+            .screenshot-placeholder.ipad { width: 280px; height: 210px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="container">
+        <div class="logo">
+            <img src="icon.png" alt="Phonas">
+            <span>Phonas</span>
+        </div>
+        <div class="nav-links">
+            <a href="#features" class="lang-zh">功能</a>
+            <a href="#features" class="lang-en">Features</a>
+            <a href="#pricing" class="lang-zh">价格</a>
+            <a href="#pricing" class="lang-en">Pricing</a>
+            <a href="#support" class="lang-zh">支持</a>
+            <a href="#support" class="lang-en">Support</a>
+            <a href="privacy.html" class="lang-zh">隐私政策</a>
+            <a href="privacy.html" class="lang-en">Privacy Policy</a>
+            <button class="lang-switch" onclick="toggleLang()">中文</button>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+    <img class="hero-icon" src="icon.png" alt="Phonas App Icon">
+    <h1>Phonas</h1>
+    <p class="tagline lang-zh">NAS 上的照片，触手可及</p>
+    <p class="tagline lang-en">Your NAS Photos, Right at Your Fingertips</p>
+    <a class="cta-btn" href="https://apps.apple.com/app/phonas" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        <span class="lang-zh">App Store 下载</span>
+        <span class="lang-en">Download on App Store</span>
+    </a>
+</section>
+
+<!-- Screenshots -->
+<section class="screenshots" id="screenshots">
+    <div class="screenshot-row">
+        <div class="screenshot-placeholder">iPhone 1</div>
+        <div class="screenshot-placeholder">iPhone 2</div>
+        <div class="screenshot-placeholder">iPhone 3</div>
+        <div class="screenshot-placeholder">iPhone 4</div>
+    </div>
+    <div class="screenshot-row" style="margin-top: 24px;">
+        <div class="screenshot-placeholder ipad">iPad 1</div>
+        <div class="screenshot-placeholder ipad">iPad 2</div>
+    </div>
+</section>
+
+<!-- Features -->
+<section class="features" id="features">
+    <h2 class="lang-zh">为什么选择 Phonas</h2>
+    <h2 class="lang-en">Why Phonas</h2>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">🔌</div>
+            <h3 class="lang-zh">最大兼容性</h3>
+            <h3 class="lang-en">Maximum Compatibility</h3>
+            <p class="lang-zh">通过 SMB 协议直接连接。无需安装任何服务端软件，不依赖特定 NAS 品牌。只要支持 SMB，就能用 Phonas。</p>
+            <p class="lang-en">Connect directly via SMB protocol. No server software needed, no vendor lock-in. If it supports SMB, it works with Phonas.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3 class="lang-zh">即刻加载</h3>
+            <h3 class="lang-en">Instant Loading</h3>
+            <p class="lang-zh">直接从媒体文件中提取内嵌缩略图，配合高并发读取，瞬间加载照片墙。无需等待服务器生成缩略图。</p>
+            <p class="lang-en">Extracts embedded thumbnails directly from media files with high-concurrency reads. Loads photo walls instantly without waiting for server-side thumbnail generation.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🎨</div>
+            <h3 class="lang-zh">原生画质</h3>
+            <h3 class="lang-en">Native Quality</h3>
+            <p class="lang-zh">读取原始文件，不做转码压缩。以原始质量显示每一张照片，完整保留 HDR 效果和色彩细节。</p>
+            <p class="lang-en">Reads original files without transcoding or compression. Displays every photo in full quality, preserving HDR effects and color details.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">💾</div>
+            <h3 class="lang-zh">智能缓存</h3>
+            <h3 class="lang-en">Smart Cache</h3>
+            <p class="lang-zh">在本地缓存媒体元数据和缩略图。即使断网，也能最大程度访问已浏览过的内容。</p>
+            <p class="lang-en">Caches media metadata and thumbnails locally. Access previously viewed content even when offline.</p>
+        </div>
+        <div class="feature-card" style="grid-column: 1 / -1;">
+            <div class="feature-icon">🚀</div>
+            <h3 class="lang-zh">快速备份</h3>
+            <h3 class="lang-en">Fast Backup</h3>
+            <p class="lang-zh">快速将本地相册上传到 NAS 指定目录。在千兆局域网下，备份 1000 张照片仅需 1 分钟。</p>
+            <p class="lang-en">Quickly upload your local photo library to a designated NAS directory. Back up 1,000 photos in just 1 minute over a gigabit LAN.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Pricing -->
+<section class="pricing" id="pricing">
+    <h2 class="lang-zh">简单定价</h2>
+    <h2 class="lang-en">Simple Pricing</h2>
+    <p class="subtitle lang-zh">一次购买，永久使用</p>
+    <p class="subtitle lang-en">Buy once, use forever</p>
+    <div class="price-card">
+        <div class="trial lang-zh">免费试用 3 天</div>
+        <div class="trial lang-en">3-day free trial</div>
+        <div class="price lang-zh">¥38</div>
+        <div class="price lang-en">$5.99</div>
+        <div class="price-note lang-zh">一次性买断，无订阅</div>
+        <div class="price-note lang-en">One-time purchase, no subscription</div>
+        <a class="cta-btn" href="https://apps.apple.com/app/phonas" target="_blank" style="width:100%;justify-content:center;">
+            <span class="lang-zh">前往 App Store</span>
+            <span class="lang-en">Get on App Store</span>
+        </a>
+    </div>
+</section>
+
+<!-- Support / FAQ -->
+<section class="support" id="support">
+    <h2 class="lang-zh">常见问题</h2>
+    <h2 class="lang-en">FAQ</h2>
+
+    <div class="lang-zh">
+        <div class="faq-item">
+            <h3>Phonas 支持哪些 NAS 设备？</h3>
+            <p>Phonas 通过标准 SMB 协议连接，支持所有启用了 SMB 服务的设备，包括但不限于 Synology、QNAP、TrueNAS、OpenWrt、Windows 共享文件夹、macOS 共享等。</p>
+        </div>
+        <div class="faq-item">
+            <h3>支持哪些照片格式？</h3>
+            <p>当前支持 JPEG、HEIC/HIF、PNG、RAW（DNG、ARW）、MP4、MOV。</p>
+        </div>
+        <div class="faq-item">
+            <h3>如何连接到我的 NAS？</h3>
+            <p>在应用中添加服务器，输入 SMB 服务器地址、用户名和密码即可。确保您的设备与 NAS 在同一局域网内，或已配置远程访问。</p>
+        </div>
+        <div class="faq-item">
+            <h3>免费试用后会怎样？</h3>
+            <p>免费试用 3 天后，如果不购买，将只能访问本地相册。</p>
+        </div>
+    </div>
+
+    <div class="lang-en">
+        <div class="faq-item">
+            <h3>What NAS devices does Phonas support?</h3>
+            <p>Phonas connects via the standard SMB protocol and supports any device with SMB enabled, including Synology, QNAP, TrueNAS, OpenWrt, Windows shared folders, macOS sharing, and more.</p>
+        </div>
+        <div class="faq-item">
+            <h3>What photo formats are supported?</h3>
+            <p>Currently supported: JPEG, HEIC/HIF, PNG, RAW (DNG, ARW), MP4, MOV.</p>
+        </div>
+        <div class="faq-item">
+            <h3>How do I connect to my NAS?</h3>
+            <p>Add a server in the app and enter your SMB server address, username, and password. Make sure your device is on the same local network as your NAS, or that remote access is configured.</p>
+        </div>
+        <div class="faq-item">
+            <h3>What happens after the free trial?</h3>
+            <p>After the 3-day free trial, you will only be able to access the local photo library if you don't purchase.</p>
+        </div>
+    </div>
+
+    <div class="contact">
+        <p class="lang-zh">遇到问题或有建议？请联系 <a href="mailto:wrji0408@gmail.com">wrji0408@gmail.com</a></p>
+        <p class="lang-en">Have issues or suggestions? Contact <a href="mailto:wrji0408@gmail.com">wrji0408@gmail.com</a></p>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="links">
+        <a href="privacy.html" class="lang-zh">隐私政策</a>
+        <a href="privacy.html" class="lang-en">Privacy Policy</a>
+    </div>
+    <p>&copy; 2025 Phonas. All rights reserved.</p>
+</footer>
+
+<script>
+let isEn = true;
+document.querySelectorAll('.lang-zh').forEach(el => el.classList.add('lang-hidden'));
+function toggleLang() {
+    isEn = !isEn;
+    document.documentElement.lang = isEn ? 'en' : 'zh-Hans';
+    document.querySelector('.lang-switch').textContent = isEn ? '中文' : 'EN';
+    document.querySelectorAll('.lang-zh').forEach(el => el.classList.toggle('lang-hidden', isEn));
+    document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('lang-hidden', !isEn));
+}
+</script>
+
+</body>
+</html>

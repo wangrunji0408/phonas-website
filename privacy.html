@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Phonas</title>
+    <link rel="icon" type="image/png" href="icon.png">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --card-bg: rgba(255,255,255,0.05);
+            --card-border: rgba(255,255,255,0.1);
+            --text: #f0f0f0;
+            --text-secondary: #a0a0a0;
+            --accent: #4A90D9;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+            background: var(--bg); color: var(--text); line-height: 1.8;
+        }
+        .lang-hidden { display: none !important; }
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 100;
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            background: rgba(10,10,10,0.8);
+            border-bottom: 1px solid var(--card-border);
+        }
+        nav .container {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px 24px; max-width: 900px; margin: 0 auto;
+        }
+        nav .logo {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 20px; font-weight: 700; text-decoration: none; color: var(--text);
+        }
+        nav .logo img { width: 32px; height: 32px; border-radius: 8px; }
+        .lang-switch {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            color: var(--text); padding: 6px 12px; border-radius: 8px;
+            cursor: pointer; font-size: 13px;
+        }
+        .content {
+            max-width: 900px; margin: 0 auto; padding: 120px 24px 80px;
+        }
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 8px; }
+        .updated { color: var(--text-secondary); font-size: 14px; margin-bottom: 48px; }
+        h2 { font-size: 22px; font-weight: 600; margin: 40px 0 16px; }
+        p, li { color: var(--text-secondary); font-size: 16px; margin-bottom: 12px; }
+        ul { padding-left: 24px; }
+        li { margin-bottom: 8px; }
+        a { color: var(--accent); text-decoration: none; }
+        footer {
+            padding: 40px 24px; border-top: 1px solid var(--card-border);
+            text-align: center; color: var(--text-secondary); font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="container">
+        <a class="logo" href="index.html">
+            <img src="icon.png" alt="Phonas">
+            <span>Phonas</span>
+        </a>
+        <button class="lang-switch" onclick="toggleLang()">中文</button>
+    </div>
+</nav>
+
+<div class="content">
+
+    <!-- Chinese -->
+    <div class="lang-zh">
+        <h1>隐私政策</h1>
+        <p class="updated">最后更新：2026年2月</p>
+
+        <h2>概述</h2>
+        <p>Phonas（以下简称"本应用"）尊重并保护用户隐私。本隐私政策说明了本应用如何处理您的数据。</p>
+
+        <h2>数据收集</h2>
+        <p>本应用<strong>不收集、不存储、不传输</strong>任何个人数据到外部服务器。具体而言：</p>
+        <ul>
+            <li>本应用不使用任何第三方分析或追踪服务</li>
+            <li>本应用不收集任何使用数据、崩溃报告或设备信息</li>
+            <li>本应用不包含任何广告或广告追踪</li>
+        </ul>
+
+        <h2>本地数据</h2>
+        <p>本应用在本地设备上存储以下数据，这些数据仅保存在您的设备上，不会上传到任何服务器：</p>
+        <ul>
+            <li><strong>SMB 连接信息：</strong>您配置的服务器地址、用户名和密码。这些凭据安全存储在 iOS 钥匙串（Keychain）中。</li>
+            <li><strong>媒体缓存：</strong>从 NAS 读取的照片缩略图和元数据会缓存在本地，以提升浏览速度和离线访问体验。</li>
+        </ul>
+
+        <h2>网络通信</h2>
+        <p>本应用仅通过 SMB 协议与您指定的 NAS 服务器通信。本应用不会连接任何其他外部服务器。所有网络通信均发生在您的本地网络中。</p>
+
+        <h2>照片访问</h2>
+        <p>本应用通过 SMB 协议读取您 NAS 上的照片文件。本应用可能访问您 iOS 设备上的本地相册，以展示或上传到 NAS 上。</p>
+
+        <h2>数据安全</h2>
+        <p>SMB 连接凭据使用 iOS 钥匙串安全存储，受操作系统级别的加密保护。</p>
+
+        <h2>儿童隐私</h2>
+        <p>本应用不针对 13 岁以下儿童，也不会有意收集儿童的任何信息。</p>
+
+        <h2>隐私政策变更</h2>
+        <p>如本隐私政策有任何变更，我们会在此页面更新。建议您定期查看本页面。</p>
+
+        <h2>联系我们</h2>
+        <p>如果您对本隐私政策有任何疑问，请通过以下方式联系我们：</p>
+        <p>邮箱：<a href="mailto:wrji0408@gmail.com">wrji0408@gmail.com</a></p>
+    </div>
+
+    <!-- English -->
+    <div class="lang-en">
+        <h1>Privacy Policy</h1>
+        <p class="updated">Last updated: February 2026</p>
+
+        <h2>Overview</h2>
+        <p>Phonas ("the App") respects and protects user privacy. This privacy policy explains how the App handles your data.</p>
+
+        <h2>Data Collection</h2>
+        <p>The App <strong>does not collect, store, or transmit</strong> any personal data to external servers. Specifically:</p>
+        <ul>
+            <li>The App does not use any third-party analytics or tracking services</li>
+            <li>The App does not collect any usage data, crash reports, or device information</li>
+            <li>The App does not contain any advertisements or ad tracking</li>
+        </ul>
+
+        <h2>Local Data</h2>
+        <p>The App stores the following data locally on your device. This data is kept only on your device and is never uploaded to any server:</p>
+        <ul>
+            <li><strong>SMB Connection Details:</strong> Server addresses, usernames, and passwords you configure. These credentials are securely stored in the iOS Keychain.</li>
+            <li><strong>Media Cache:</strong> Photo thumbnails and metadata read from your NAS are cached locally to improve browsing speed and enable offline access.</li>
+        </ul>
+
+        <h2>Network Communication</h2>
+        <p>The App communicates only with the NAS server you specify via the SMB protocol. The App does not connect to any other external servers. All network communication occurs within your local network.</p>
+
+        <h2>Photo Access</h2>
+        <p>The App reads photo files from your NAS via the SMB protocol. The App may access the local photo library on your iOS device in order to display or upload photos to your NAS.</p>
+
+        <h2>Data Security</h2>
+        <p>SMB connection credentials are securely stored using the iOS Keychain, protected by operating system-level encryption.</p>
+
+        <h2>Children's Privacy</h2>
+        <p>The App is not directed at children under the age of 13 and does not knowingly collect any information from children.</p>
+
+        <h2>Changes to This Policy</h2>
+        <p>If there are any changes to this privacy policy, we will update this page. We encourage you to review this page periodically.</p>
+
+        <h2>Contact Us</h2>
+        <p>If you have any questions about this privacy policy, please contact us at:</p>
+        <p>Email: <a href="mailto:wrji0408@gmail.com">wrji0408@gmail.com</a></p>
+    </div>
+
+</div>
+
+<footer>
+    <p>&copy; 2025 Phonas. All rights reserved.</p>
+</footer>
+
+<script>
+let isEn = true;
+document.querySelectorAll('.lang-zh').forEach(el => el.classList.add('lang-hidden'));
+function toggleLang() {
+    isEn = !isEn;
+    document.documentElement.lang = isEn ? 'en' : 'zh-Hans';
+    document.querySelector('.lang-switch').textContent = isEn ? '中文' : 'EN';
+    document.querySelectorAll('.lang-zh').forEach(el => el.classList.toggle('lang-hidden', isEn));
+    document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('lang-hidden', !isEn));
+}
+</script>
+
+</body>
+</html>
