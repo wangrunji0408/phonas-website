@@ -82,56 +82,150 @@
         .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(74,144,217,0.5); }
         .cta-btn svg { width: 20px; height: 20px; }
 
-        /* Screenshots */
-        .screenshots {
-            padding: 40px 24px 80px;
-            max-width: 1200px; margin: 0 auto;
-        }
-        .screenshots h2 {
-            text-align: center; font-size: 36px; font-weight: 700;
-            margin-bottom: 48px;
-        }
-        .screenshot-row {
-            display: flex; gap: 24px; justify-content: center;
-            flex-wrap: wrap;
-        }
-        .screenshot-placeholder {
-            width: 200px; height: 433px;
-            background: var(--card-bg);
-            border: 2px dashed var(--card-border);
-            border-radius: 24px;
-            display: flex; align-items: center; justify-content: center;
-            color: var(--text-secondary); font-size: 14px;
-            flex-shrink: 0;
-        }
-        .screenshot-placeholder.ipad {
-            width: 360px; height: 270px;
-            border-radius: 16px;
-        }
-
-        /* Features */
+        /* ── Features + Phone showcase ── */
         .features {
-            padding: 80px 24px;
-            max-width: 1200px; margin: 0 auto;
+            padding: 80px 24px 100px;
+            max-width: 1100px; margin: 0 auto;
         }
         .features > h2 {
             text-align: center; font-size: 36px; font-weight: 700;
-            margin-bottom: 60px;
+            margin-bottom: 64px;
         }
-        .features-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
+        .features-layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 64px;
+            align-items: center;
         }
-        .feature-card {
+
+        /* Left: phone mockup */
+        .phone-mockup {
+            position: relative;
+            width: 260px;
+            flex-shrink: 0;
+        }
+        .phone-frame {
+            position: relative;
+            width: 260px;
+            height: 562px;
+            border-radius: 50px;
+            background: linear-gradient(160deg, #2a2a2e 0%, #1a1a1e 40%, #111114 100%);
+            box-shadow:
+                inset 0 0 0 1px rgba(255,255,255,0.18),
+                inset 0 1px 0 rgba(255,255,255,0.22),
+                0 0 0 1px rgba(0,0,0,0.6),
+                0 40px 100px rgba(0,0,0,0.7),
+                0 10px 30px rgba(0,0,0,0.5);
+        }
+        .phone-frame::before {
+            content: '';
+            position: absolute;
+            inset: -1.5px;
+            border-radius: 51.5px;
+            background: linear-gradient(135deg,
+                rgba(255,255,255,0.32) 0%,
+                rgba(180,180,190,0.12) 35%,
+                rgba(80,80,90,0.08) 65%,
+                rgba(255,255,255,0.22) 100%);
+            z-index: 0;
+        }
+        .phone-screen {
+            position: absolute;
+            top: 6px; left: 6px; right: 6px; bottom: 6px;
+            border-radius: 46px;
+            overflow: hidden;
+            background: #000;
+            z-index: 1;
+        }
+        .phone-screen img {
+            position: absolute;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            top: 0; left: 0;
+        }
+        .phone-screen img.slide-out-left  { animation: slideOutLeft  0.4s cubic-bezier(0.4,0,0.2,1) forwards; }
+        .phone-screen img.slide-out-right { animation: slideOutRight 0.4s cubic-bezier(0.4,0,0.2,1) forwards; }
+        .phone-screen img.slide-in-left   { animation: slideInLeft   0.4s cubic-bezier(0.4,0,0.2,1) forwards; }
+        .phone-screen img.slide-in-right  { animation: slideInRight  0.4s cubic-bezier(0.4,0,0.2,1) forwards; }
+        @keyframes slideOutLeft  { from{transform:translateX(0)}   to{transform:translateX(-100%)} }
+        @keyframes slideOutRight { from{transform:translateX(0)}   to{transform:translateX(100%)}  }
+        @keyframes slideInLeft   { from{transform:translateX(100%)} to{transform:translateX(0)}    }
+        @keyframes slideInRight  { from{transform:translateX(-100%)}to{transform:translateX(0)}    }
+        .phone-screen::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 45%);
+            pointer-events: none; z-index: 5;
+        }
+        .dynamic-island {
+            position: absolute;
+            top: 13px; left: 50%; transform: translateX(-50%);
+            width: 80px; height: 24px;
+            background: #000; border-radius: 13px;
+            z-index: 10;
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.05);
+        }
+        .phone-btn-power  { position:absolute; right:-3px; top:154px; width:3px; height:84px; background:linear-gradient(to right,#2a2a2e,#3a3a3e); border-radius:0 3px 3px 0; }
+        .phone-btn-vol-up { position:absolute; left:-3px;  top:130px; width:3px; height:52px; background:linear-gradient(to left,#2a2a2e,#3a3a3e);  border-radius:3px 0 0 3px; }
+        .phone-btn-vol-down{position:absolute; left:-3px;  top:194px; width:3px; height:52px; background:linear-gradient(to left,#2a2a2e,#3a3a3e);  border-radius:3px 0 0 3px; }
+        .phone-btn-action { position:absolute; left:-3px;  top:84px;  width:3px; height:32px; background:linear-gradient(to left,#2a2a2e,#3a3a3e);  border-radius:3px 0 0 3px; }
+        .phone-glow {
+            position: absolute; bottom: -32px; left: 50%; transform: translateX(-50%);
+            width: 160px; height: 32px;
+            background: radial-gradient(ellipse, rgba(74,144,217,0.28) 0%, transparent 70%);
+            filter: blur(10px); pointer-events: none;
+        }
+
+        /* Right: feature list */
+        .features-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .feature-item {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            padding: 28px 24px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: background 0.25s, transform 0.25s;
+            position: relative;
+        }
+        .feature-item::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 16px; bottom: 16px;
+            width: 3px;
+            border-radius: 2px;
+            background: var(--accent);
+            opacity: 0;
+            transition: opacity 0.25s;
+        }
+        .feature-item.active {
             background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 20px; padding: 36px;
-            transition: transform 0.2s, border-color 0.2s;
         }
-        .feature-card:hover { transform: translateY(-4px); border-color: rgba(74,144,217,0.3); }
-        .feature-icon { font-size: 40px; margin-bottom: 16px; }
-        .feature-card h3 { font-size: 22px; font-weight: 600; margin-bottom: 10px; }
-        .feature-card p { color: var(--text-secondary); font-size: 16px; line-height: 1.7; }
+        .feature-item.active::before { opacity: 1; }
+        .feature-item:hover:not(.active) { background: rgba(255,255,255,0.03); }
+        .feature-item-icon {
+            font-size: 32px;
+            flex-shrink: 0;
+            line-height: 1;
+            margin-top: 2px;
+        }
+        .feature-item-text h3 {
+            font-size: 20px; font-weight: 650;
+            margin-bottom: 6px;
+            transition: color 0.25s;
+        }
+        .feature-item.active .feature-item-text h3 { color: #fff; }
+        .feature-item-text p {
+            color: var(--text-secondary);
+            font-size: 15px; line-height: 1.65;
+        }
+
+        /* Progress bar under active item */
+        .feature-progress { display: none; }
 
         /* Pricing */
         .pricing {
@@ -182,10 +276,9 @@
         @media (max-width: 768px) {
             .hero h1 { font-size: 36px; }
             .hero .tagline { font-size: 18px; }
-            .features-grid { grid-template-columns: 1fr; }
+            .features-layout { grid-template-columns: 1fr; }
+            .phone-mockup { margin: 0 auto; }
             .price-card .price { font-size: 36px; }
-            .screenshot-placeholder { width: 160px; height: 347px; }
-            .screenshot-placeholder.ipad { width: 280px; height: 210px; }
         }
     </style>
 </head>
@@ -225,59 +318,34 @@
 </section>
 
 <!-- Screenshots -->
-<section class="screenshots" id="screenshots">
-    <div class="screenshot-row">
-        <div class="screenshot-placeholder">iPhone 1</div>
-        <div class="screenshot-placeholder">iPhone 2</div>
-        <div class="screenshot-placeholder">iPhone 3</div>
-        <div class="screenshot-placeholder">iPhone 4</div>
-    </div>
-    <div class="screenshot-row" style="margin-top: 24px;">
-        <div class="screenshot-placeholder ipad">iPad 1</div>
-        <div class="screenshot-placeholder ipad">iPad 2</div>
-    </div>
-</section>
+<section class="screenshots" id="screenshots" style="display:none"></section>
 
 <!-- Features -->
 <section class="features" id="features">
     <h2 class="lang-zh">为什么选择 Phonas</h2>
     <h2 class="lang-en">Why Phonas</h2>
-    <div class="features-grid">
-        <div class="feature-card">
-            <div class="feature-icon">🔌</div>
-            <h3 class="lang-zh">最大兼容性</h3>
-            <h3 class="lang-en">Maximum Compatibility</h3>
-            <p class="lang-zh">通过 SMB 协议直接连接。无需安装任何服务端软件，不依赖特定 NAS 品牌。只要支持 SMB，就能用 Phonas。</p>
-            <p class="lang-en">Connect directly via SMB protocol. No server software needed, no vendor lock-in. If it supports SMB, it works with Phonas.</p>
+    <div class="features-layout">
+
+        <!-- Left: iPhone mockup -->
+        <div class="phone-mockup" id="featurePhone">
+            <div class="phone-frame">
+                <div class="phone-btn-action"></div>
+                <div class="phone-btn-vol-up"></div>
+                <div class="phone-btn-vol-down"></div>
+                <div class="phone-btn-power"></div>
+                <div class="phone-screen" id="featureScreen">
+                    <img src="images/connect.heic" alt="Connect to NAS">
+                    <div class="dynamic-island"></div>
+                </div>
+            </div>
+            <div class="phone-glow"></div>
         </div>
-        <div class="feature-card">
-            <div class="feature-icon">⚡</div>
-            <h3 class="lang-zh">即刻加载</h3>
-            <h3 class="lang-en">Instant Loading</h3>
-            <p class="lang-zh">直接从媒体文件中提取内嵌缩略图，配合高并发读取，瞬间加载照片墙。无需等待服务器生成缩略图。</p>
-            <p class="lang-en">Extracts embedded thumbnails directly from media files with high-concurrency reads. Loads photo walls instantly without waiting for server-side thumbnail generation.</p>
+
+        <!-- Right: feature list -->
+        <div class="features-list" id="featuresList">
+            <!-- rendered by JS -->
         </div>
-        <div class="feature-card">
-            <div class="feature-icon">🎨</div>
-            <h3 class="lang-zh">原生画质</h3>
-            <h3 class="lang-en">Native Quality</h3>
-            <p class="lang-zh">读取原始文件，不做转码压缩。以原始质量显示每一张照片，完整保留 HDR 效果和色彩细节。</p>
-            <p class="lang-en">Reads original files without transcoding or compression. Displays every photo in full quality, preserving HDR effects and color details.</p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icon">💾</div>
-            <h3 class="lang-zh">智能缓存</h3>
-            <h3 class="lang-en">Smart Cache</h3>
-            <p class="lang-zh">在本地缓存媒体元数据和缩略图。即使断网，也能最大程度访问已浏览过的内容。</p>
-            <p class="lang-en">Caches media metadata and thumbnails locally. Access previously viewed content even when offline.</p>
-        </div>
-        <div class="feature-card" style="grid-column: 1 / -1;">
-            <div class="feature-icon">🚀</div>
-            <h3 class="lang-zh">快速备份</h3>
-            <h3 class="lang-en">Fast Backup</h3>
-            <p class="lang-zh">快速将本地相册上传到 NAS 指定目录。在千兆局域网下，备份 1000 张照片仅需 1 分钟。</p>
-            <p class="lang-en">Quickly upload your local photo library to a designated NAS directory. Back up 1,000 photos in just 1 minute over a gigabit LAN.</p>
-        </div>
+
     </div>
 </section>
 
@@ -369,6 +437,100 @@ function toggleLang() {
     document.querySelectorAll('.lang-zh').forEach(el => el.classList.toggle('lang-hidden', isEn));
     document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('lang-hidden', !isEn));
 }
+
+// ── Feature + Phone showcase ──────────────────────────────────────
+const DURATION = 5000; // ms per slide
+
+const features = [
+    {
+        img: 'images/connect.heic',
+        icon: '🔌',
+        zh: { title: '最大兼容性', desc: '通过 SMB 协议直接连接。无需安装任何服务端软件，不依赖特定 NAS 品牌。只要支持 SMB，就能用 Phonas。' },
+        en: { title: 'Maximum Compatibility', desc: 'Connect directly via SMB protocol. No server software needed, no vendor lock-in. If it supports SMB, it works with Phonas.' },
+    },
+    {
+        img: 'images/gallery.heic',
+        icon: '⚡',
+        zh: { title: '即刻加载', desc: '直接从媒体文件中提取内嵌缩略图，配合高并发读取，瞬间加载照片墙。无需等待服务器生成缩略图。' },
+        en: { title: 'Instant Loading', desc: 'Extracts embedded thumbnails directly from media files with high-concurrency reads. Loads photo walls instantly without waiting for server-side thumbnail generation.' },
+    },
+    {
+        img: 'images/photoview.heic',
+        icon: '🎨',
+        zh: { title: '原生画质', desc: '读取原始文件，不做转码压缩。以原始质量显示每一张照片，完整保留 HDR 效果和色彩细节。' },
+        en: { title: 'Native Quality', desc: 'Reads original files without transcoding or compression. Displays every photo in full quality, preserving HDR effects and color details.' },
+    },
+    {
+        img: 'images/backup.heic',
+        icon: '🚀',
+        zh: { title: '快速备份', desc: '快速将本地相册上传到 NAS 指定目录。在千兆局域网下，备份 1000 张照片仅需 1 分钟。' },
+        en: { title: 'Fast Backup', desc: 'Quickly upload your local photo library to a designated NAS directory. Back up 1,000 photos in just 1 minute over a gigabit LAN.' },
+    },
+];
+
+const screenEl   = document.getElementById('featureScreen');
+const listEl     = document.getElementById('featuresList');
+let current      = 0;
+let autoTimer    = null;
+let slideDir     = 1;
+
+// Preload images
+features.forEach(f => { const i = new Image(); i.src = f.img; });
+
+function renderList() {
+    listEl.innerHTML = features.map((f, i) => `
+        <div class="feature-item ${i === current ? 'active' : ''}" onclick="goTo(${i}, true)">
+            <div class="feature-item-icon">${f.icon}</div>
+            <div class="feature-item-text">
+                <h3 class="lang-zh${isEn ? ' lang-hidden' : ''}">${f.zh.title}</h3>
+                <h3 class="lang-en${!isEn ? ' lang-hidden' : ''}">${f.en.title}</h3>
+                <p class="lang-zh${isEn ? ' lang-hidden' : ''}">${f.zh.desc}</p>
+                <p class="lang-en${!isEn ? ' lang-hidden' : ''}">${f.en.desc}</p>
+            </div>
+            <div class="feature-progress">
+                <div class="feature-progress-bar" style="--progress-duration:${DURATION}ms"></div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function switchScreen(newSrc) {
+    const oldImg = screenEl.querySelector('img');
+    const newImg = document.createElement('img');
+    newImg.src = newSrc;
+    screenEl.insertBefore(newImg, screenEl.querySelector('.dynamic-island'));
+
+    if (slideDir > 0) {
+        oldImg.classList.add('slide-out-left');
+        newImg.classList.add('slide-in-left');
+    } else {
+        oldImg.classList.add('slide-out-right');
+        newImg.classList.add('slide-in-right');
+    }
+    setTimeout(() => oldImg.remove(), 420);
+}
+
+function goTo(index, userTriggered = false) {
+    if (index === current && !userTriggered) return;
+    slideDir = ((index - current + features.length) % features.length <= features.length / 2) ? 1 : -1;
+    current = index;
+    switchScreen(features[current].img);
+    renderList();
+    if (userTriggered) resetAuto();
+}
+
+function resetAuto() {
+    clearInterval(autoTimer);
+    autoTimer = setInterval(() => {
+        slideDir = 1;
+        current = (current + 1) % features.length;
+        switchScreen(features[current].img);
+        renderList();
+    }, DURATION);
+}
+
+renderList();
+resetAuto();
 </script>
 
 </body>
