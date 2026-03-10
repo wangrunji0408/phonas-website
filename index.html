@@ -93,9 +93,10 @@
         }
         .features-layout {
             display: grid;
-            grid-template-columns: 260px 1fr;
-            gap: 64px;
+            grid-template-columns: 1fr 260px;
+            gap: 40px;
             align-items: center;
+            padding: 0 40px;
         }
 
         /* Left: phone mockup */
@@ -326,7 +327,12 @@
     <h2 class="lang-en">Why Phonas</h2>
     <div class="features-layout">
 
-        <!-- Left: iPhone mockup -->
+        <!-- Left: feature list -->
+        <div class="features-list" id="featuresList">
+            <!-- rendered by JS -->
+        </div>
+
+        <!-- Right: iPhone mockup -->
         <div class="phone-mockup" id="featurePhone">
             <div class="phone-frame">
                 <div class="phone-btn-action"></div>
@@ -339,11 +345,6 @@
                 </div>
             </div>
             <div class="phone-glow"></div>
-        </div>
-
-        <!-- Right: feature list -->
-        <div class="features-list" id="featuresList">
-            <!-- rendered by JS -->
         </div>
 
     </div>
@@ -424,7 +425,7 @@
         <a href="privacy.html" class="lang-zh">隐私政策</a>
         <a href="privacy.html" class="lang-en">Privacy Policy</a>
     </div>
-    <p>&copy; 2025 Phonas. All rights reserved.</p>
+    <p>&copy; 2026 Phonas. All rights reserved.</p>
 </footer>
 
 <script>
