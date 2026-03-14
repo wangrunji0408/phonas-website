@@ -48,6 +48,11 @@
             background: var(--card-bg); border: 1px solid var(--card-border);
             color: var(--text); padding: 6px 12px; border-radius: 8px;
             cursor: pointer; font-size: 13px;
+            appearance: none; -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a0a0a0' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            padding-right: 28px;
         }
 
         /* Hero */
@@ -292,15 +297,23 @@
             <span>Phonas</span>
         </div>
         <div class="nav-links">
-            <a href="#features" class="lang-zh">功能</a>
-            <a href="#features" class="lang-en">Features</a>
-            <a href="#pricing" class="lang-zh">价格</a>
-            <a href="#pricing" class="lang-en">Pricing</a>
-            <a href="#support" class="lang-zh">支持</a>
-            <a href="#support" class="lang-en">Support</a>
-            <a href="privacy.html" class="lang-zh">隐私政策</a>
-            <a href="privacy.html" class="lang-en">Privacy Policy</a>
-            <button class="lang-switch" onclick="toggleLang()">中文</button>
+            <a href="#features" data-i18n="nav.features"></a>
+            <a href="#pricing" data-i18n="nav.pricing"></a>
+            <a href="#support" data-i18n="nav.support"></a>
+            <a href="privacy.html" data-i18n="nav.privacy"></a>
+            <select class="lang-switch" id="langSelect" onchange="setLang(this.value)">
+                <option value="en">English</option>
+                <option value="zh-Hans">简体中文</option>
+                <option value="zh-Hant-TW">繁體中文（台灣）</option>
+                <option value="zh-Hant-HK">繁體中文（香港）</option>
+                <option value="ja">日本語</option>
+                <option value="ko">한국어</option>
+                <option value="fr">Français</option>
+                <option value="de">Deutsch</option>
+                <option value="es">Español</option>
+                <option value="ru">Русский</option>
+                <option value="ar">العربية</option>
+            </select>
         </div>
     </div>
 </nav>
@@ -309,12 +322,10 @@
 <section class="hero">
     <img class="hero-icon" src="icon.png" alt="Phonas App Icon">
     <h1>Phonas</h1>
-    <p class="tagline lang-zh">NAS 上的照片，触手可及</p>
-    <p class="tagline lang-en">Your NAS Photos, Right at Your Fingertips</p>
+    <p class="tagline" data-i18n="hero.tagline"></p>
     <a class="cta-btn" href="https://apps.apple.com/app/phonas" target="_blank">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-        <span class="lang-zh">App Store 下载</span>
-        <span class="lang-en">Download on App Store</span>
+        <span data-i18n="hero.cta"></span>
     </a>
 </section>
 
@@ -323,8 +334,7 @@
 
 <!-- Features -->
 <section class="features" id="features">
-    <h2 class="lang-zh">为什么选择 Phonas</h2>
-    <h2 class="lang-en">Why Phonas</h2>
+    <h2 data-i18n="features.title"></h2>
     <div class="features-layout">
 
         <!-- Left: feature list -->
@@ -352,122 +362,327 @@
 
 <!-- Pricing -->
 <section class="pricing" id="pricing">
-    <h2 class="lang-zh">简单定价</h2>
-    <h2 class="lang-en">Simple Pricing</h2>
-    <p class="subtitle lang-zh">一次购买，永久使用</p>
-    <p class="subtitle lang-en">Buy once, use forever</p>
+    <h2 data-i18n="pricing.title"></h2>
+    <p class="subtitle" data-i18n="pricing.subtitle"></p>
     <div class="price-card">
-        <div class="trial lang-zh">免费试用 3 天</div>
-        <div class="trial lang-en">3-day free trial</div>
-        <div class="price lang-zh">¥38</div>
-        <div class="price lang-en">$5.99</div>
-        <div class="price-note lang-zh">一次性买断，无订阅</div>
-        <div class="price-note lang-en">One-time purchase, no subscription</div>
+        <div class="trial" data-i18n="pricing.trial"></div>
+        <div class="price" data-i18n="pricing.price"></div>
+        <div class="price-note" data-i18n="pricing.note"></div>
         <a class="cta-btn" href="https://apps.apple.com/app/phonas" target="_blank" style="width:100%;justify-content:center;">
-            <span class="lang-zh">前往 App Store</span>
-            <span class="lang-en">Get on App Store</span>
+            <span data-i18n="pricing.cta"></span>
         </a>
     </div>
 </section>
 
 <!-- Support / FAQ -->
 <section class="support" id="support">
-    <h2 class="lang-zh">常见问题</h2>
-    <h2 class="lang-en">FAQ</h2>
+    <h2 data-i18n="faq.title"></h2>
 
-    <div class="lang-zh">
-        <div class="faq-item">
-            <h3>Phonas 支持哪些 NAS 设备？</h3>
-            <p>Phonas 通过标准 SMB 协议连接，支持所有启用了 SMB 服务的设备，包括但不限于 Synology、QNAP、TrueNAS、OpenWrt、Windows 共享文件夹、macOS 共享等。</p>
-        </div>
-        <div class="faq-item">
-            <h3>支持哪些照片格式？</h3>
-            <p>当前支持 JPEG、HEIC/HIF、PNG、RAW（DNG、ARW）、MP4、MOV。</p>
-        </div>
-        <div class="faq-item">
-            <h3>如何连接到我的 NAS？</h3>
-            <p>在应用中添加服务器，输入 SMB 服务器地址、用户名和密码即可。确保您的设备与 NAS 在同一局域网内，或已配置远程访问。</p>
-        </div>
-        <div class="faq-item">
-            <h3>免费试用后会怎样？</h3>
-            <p>免费试用 3 天后，如果不购买，将只能访问本地相册。</p>
-        </div>
-    </div>
-
-    <div class="lang-en">
-        <div class="faq-item">
-            <h3>What NAS devices does Phonas support?</h3>
-            <p>Phonas connects via the standard SMB protocol and supports any device with SMB enabled, including Synology, QNAP, TrueNAS, OpenWrt, Windows shared folders, macOS sharing, and more.</p>
-        </div>
-        <div class="faq-item">
-            <h3>What photo formats are supported?</h3>
-            <p>Currently supported: JPEG, HEIC/HIF, PNG, RAW (DNG, ARW), MP4, MOV.</p>
-        </div>
-        <div class="faq-item">
-            <h3>How do I connect to my NAS?</h3>
-            <p>Add a server in the app and enter your SMB server address, username, and password. Make sure your device is on the same local network as your NAS, or that remote access is configured.</p>
-        </div>
-        <div class="faq-item">
-            <h3>What happens after the free trial?</h3>
-            <p>After the 3-day free trial, you will only be able to access the local photo library if you don't purchase.</p>
-        </div>
-    </div>
+    <div id="faqList"><!-- rendered by JS --></div>
 
     <div class="contact">
-        <p class="lang-zh">遇到问题或有建议？请联系 <a href="mailto:wrji0408@gmail.com">wrji0408@gmail.com</a></p>
-        <p class="lang-en">Have issues or suggestions? Contact <a href="mailto:wrji0408@gmail.com">wrji0408@gmail.com</a></p>
+        <p><span data-i18n="faq.contact"></span> <a href="mailto:wrji0408@gmail.com">wrji0408@gmail.com</a></p>
     </div>
 </section>
 
 <!-- Footer -->
 <footer>
     <div class="links">
-        <a href="privacy.html" class="lang-zh">隐私政策</a>
-        <a href="privacy.html" class="lang-en">Privacy Policy</a>
+        <a href="privacy.html" data-i18n="nav.privacy"></a>
     </div>
     <p>&copy; 2026 Phonas. All rights reserved.</p>
 </footer>
 
 <script>
-let isEn = true;
-document.querySelectorAll('.lang-zh').forEach(el => el.classList.add('lang-hidden'));
-function toggleLang() {
-    isEn = !isEn;
-    document.documentElement.lang = isEn ? 'en' : 'zh-Hans';
-    document.querySelector('.lang-switch').textContent = isEn ? '中文' : 'EN';
-    document.querySelectorAll('.lang-zh').forEach(el => el.classList.toggle('lang-hidden', isEn));
-    document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('lang-hidden', !isEn));
+// ── i18n translations ─────────────────────────────────────────────
+const T = {
+  en: {
+    'nav.features': 'Features', 'nav.pricing': 'Pricing',
+    'nav.support': 'Support', 'nav.privacy': 'Privacy Policy',
+    'hero.tagline': 'Your NAS Photos, Right at Your Fingertips',
+    'hero.cta': 'Download on App Store',
+    'features.title': 'Why Phonas',
+    'pricing.title': 'Simple Pricing', 'pricing.subtitle': 'Buy once, use forever',
+    'pricing.trial': '3-day free trial', 'pricing.price': '$6.99',
+    'pricing.note': 'One-time purchase, no subscription', 'pricing.cta': 'Get on App Store',
+    'faq.title': 'FAQ', 'faq.contact': 'Have issues or suggestions? Contact',
+    'faq.items': [
+      { q: 'What NAS devices does Phonas support?', a: 'Phonas connects via the standard SMB protocol and supports any device with SMB enabled, including Synology, QNAP, TrueNAS, OpenWrt, Windows shared folders, macOS sharing, and more.' },
+      { q: 'What photo formats are supported?', a: 'Currently supported: JPEG, HEIC/HIF, PNG, RAW (DNG, ARW), MP4, MOV.' },
+      { q: 'How do I connect to my NAS?', a: 'Add a server in the app and enter your SMB server address, username, and password. Make sure your device is on the same local network as your NAS, or that remote access is configured.' },
+      { q: 'What happens after the free trial?', a: 'After the 3-day free trial, you will only be able to access the local photo library if you don\'t purchase.' },
+    ],
+    'features.items': [
+      { title: 'Maximum Compatibility', desc: 'Connect directly via SMB protocol. No server software needed, no vendor lock-in. If it supports SMB, it works with Phonas.' },
+      { title: 'Instant Loading', desc: 'Extracts embedded thumbnails directly from media files with high-concurrency reads. Loads photo walls instantly without waiting for server-side thumbnail generation.' },
+      { title: 'Native Quality', desc: 'Reads original files without transcoding or compression. Displays every photo in full quality, preserving HDR effects and color details.' },
+      { title: 'Fast Backup', desc: 'Quickly upload your local photo library to a designated NAS directory. Back up 1,000 photos in just 1 minute over a gigabit LAN.' },
+    ],
+  },
+  'zh-Hans': {
+    'nav.features': '功能', 'nav.pricing': '价格',
+    'nav.support': '支持', 'nav.privacy': '隐私政策',
+    'hero.tagline': 'NAS 上的照片，触手可及',
+    'hero.cta': 'App Store 下载',
+    'features.title': '为什么选择 Phonas',
+    'pricing.title': '简单定价', 'pricing.subtitle': '一次购买，永久使用',
+    'pricing.trial': '免费试用 3 天', 'pricing.price': '¥48',
+    'pricing.note': '一次性买断，无订阅', 'pricing.cta': '前往 App Store',
+    'faq.title': '常见问题', 'faq.contact': '遇到问题或有建议？请联系',
+    'faq.items': [
+      { q: 'Phonas 支持哪些 NAS 设备？', a: 'Phonas 通过标准 SMB 协议连接，支持所有启用了 SMB 服务的设备，包括但不限于 Synology、QNAP、TrueNAS、OpenWrt、Windows 共享文件夹、macOS 共享等。' },
+      { q: '支持哪些照片格式？', a: '当前支持 JPEG、HEIC/HIF、PNG、RAW（DNG、ARW）、MP4、MOV。' },
+      { q: '如何连接到我的 NAS？', a: '在应用中添加服务器，输入 SMB 服务器地址、用户名和密码即可。确保您的设备与 NAS 在同一局域网内，或已配置远程访问。' },
+      { q: '免费试用后会怎样？', a: '免费试用 3 天后，如果不购买，将只能访问本地相册。' },
+    ],
+    'features.items': [
+      { title: '最大兼容性', desc: '通过 SMB 协议直接连接。无需安装任何服务端软件，不依赖特定 NAS 品牌。只要支持 SMB，就能用 Phonas。' },
+      { title: '即刻加载', desc: '直接从媒体文件中提取内嵌缩略图，配合高并发读取，瞬间加载照片墙。无需等待服务器生成缩略图。' },
+      { title: '原生画质', desc: '读取原始文件，不做转码压缩。以原始质量显示每一张照片，完整保留 HDR 效果和色彩细节。' },
+      { title: '快速备份', desc: '快速将本地相册上传到 NAS 指定目录。在千兆局域网下，备份 1000 张照片仅需 1 分钟。' },
+    ],
+  },
+  'zh-Hant': {
+    'nav.features': '功能', 'nav.pricing': '價格',
+    'nav.support': '支援', 'nav.privacy': '隱私權政策',
+    'hero.tagline': 'NAS 上的照片，觸手可及',
+    'hero.cta': 'App Store 下載',
+    'features.title': '為什麼選擇 Phonas',
+    'pricing.title': '簡單定價', 'pricing.subtitle': '一次購買，永久使用',
+    'pricing.trial': '免費試用 3 天', 'pricing.price': 'NT$220',
+    'pricing.note': '一次性買斷，無訂閱', 'pricing.cta': '前往 App Store',
+    'faq.title': '常見問題', 'faq.contact': '遇到問題或有建議？請聯絡',
+    'faq.items': [
+      { q: 'Phonas 支援哪些 NAS 裝置？', a: 'Phonas 透過標準 SMB 協議連線，支援所有啟用了 SMB 服務的裝置，包括但不限於 Synology、QNAP、TrueNAS、OpenWrt、Windows 共用資料夾、macOS 共享等。' },
+      { q: '支援哪些相片格式？', a: '目前支援 JPEG、HEIC/HIF、PNG、RAW（DNG、ARW）、MP4、MOV。' },
+      { q: '如何連線到我的 NAS？', a: '在應用程式中新增伺服器，輸入 SMB 伺服器位址、使用者名稱和密碼即可。請確保您的裝置與 NAS 在同一區域網路內，或已設定遠端存取。' },
+      { q: '免費試用後會怎樣？', a: '免費試用 3 天後，若未購買，將只能存取本機相簿。' },
+    ],
+    'features.items': [
+      { title: '最大相容性', desc: '透過 SMB 協議直接連線。無需安裝任何伺服器端軟體，不依賴特定 NAS 品牌。只要支援 SMB，就能使用 Phonas。' },
+      { title: '即時載入', desc: '直接從媒體檔案中提取內嵌縮圖，搭配高並發讀取，瞬間載入相片牆。無需等待伺服器產生縮圖。' },
+      { title: '原生畫質', desc: '讀取原始檔案，不做轉碼壓縮。以原始品質顯示每一張相片，完整保留 HDR 效果和色彩細節。' },
+      { title: '快速備份', desc: '快速將本機相簿上傳到 NAS 指定目錄。在千兆區域網路下，備份 1000 張相片僅需 1 分鐘。' },
+    ],
+  },
+  ja: {
+    'nav.features': '機能', 'nav.pricing': '価格',
+    'nav.support': 'サポート', 'nav.privacy': 'プライバシーポリシー',
+    'hero.tagline': 'NASの写真を、いつでも手元に',
+    'hero.cta': 'App Storeでダウンロード',
+    'features.title': 'Phonasを選ぶ理由',
+    'pricing.title': 'シンプルな料金', 'pricing.subtitle': '一度購入すれば永久に使える',
+    'pricing.trial': '3日間無料トライアル', 'pricing.price': '¥1,100',
+    'pricing.note': '買い切り、サブスクなし', 'pricing.cta': 'App Storeで入手',
+    'faq.title': 'よくある質問', 'faq.contact': 'ご質問・ご意見はこちら',
+    'faq.items': [
+      { q: 'Phonasはどのようなデバイスをサポートしていますか？', a: 'PhonasはSMBプロトコルで接続し、Synology、QNAP、TrueNAS、OpenWrt、Windowsファイル共有、macOS共有など、SMBが有効なあらゆるデバイスをサポートします。' },
+      { q: 'サポートされている写真フォーマットは？', a: 'JPEG、HEIC/HIF、PNG、RAW（DNG、ARW）、MP4、MOVに対応しています。' },
+      { q: 'NASへの接続方法は？', a: 'アプリでサーバーを追加し、SMBサーバーのアドレス、ユーザー名、パスワードを入力してください。デバイスがNASと同じローカルネットワーク上にあるか、リモートアクセスが設定されていることを確認してください。' },
+      { q: '無料トライアル終了後はどうなりますか？', a: '3日間の無料トライアル終了後、購入しない場合はローカルフォトライブラリにのみアクセスできます。' },
+    ],
+    'features.items': [
+      { title: '最大の互換性', desc: 'SMBプロトコルで直接接続。サーバーソフトウェアは不要で、特定のNASブランドに依存しません。SMBをサポートしていれば動作します。' },
+      { title: '瞬時に読み込み', desc: 'メディアファイルから埋め込みサムネイルを直接抽出し、高並行読み取りでフォトウォールを瞬時に表示。サーバー側のサムネイル生成を待つ必要はありません。' },
+      { title: 'ネイティブ品質', desc: '変換や圧縮なしに元のファイルを読み込みます。HDR効果や色彩の詳細を保持したまま、すべての写真をフル品質で表示します。' },
+      { title: '高速バックアップ', desc: 'ローカルフォトライブラリを指定したNASディレクトリに高速アップロード。ギガビットLANで1000枚の写真をわずか1分でバックアップ。' },
+    ],
+  },
+  ko: {
+    'nav.features': '기능', 'nav.pricing': '가격',
+    'nav.support': '지원', 'nav.privacy': '개인정보처리방침',
+    'hero.tagline': 'NAS의 사진을, 언제 어디서나',
+    'hero.cta': 'App Store에서 다운로드',
+    'features.title': 'Phonas를 선택하는 이유',
+    'pricing.title': '간단한 가격', 'pricing.subtitle': '한 번 구매로 영구 사용',
+    'pricing.trial': '3일 무료 체험', 'pricing.price': '₩9,900',
+    'pricing.note': '일회성 구매, 구독 없음', 'pricing.cta': 'App Store에서 받기',
+    'faq.title': '자주 묻는 질문', 'faq.contact': '문의사항이나 제안이 있으시면 연락하세요',
+    'faq.items': [
+      { q: 'Phonas는 어떤 NAS 기기를 지원하나요?', a: 'Phonas는 표준 SMB 프로토콜로 연결되며, Synology, QNAP, TrueNAS, OpenWrt, Windows 공유 폴더, macOS 공유 등 SMB가 활성화된 모든 기기를 지원합니다.' },
+      { q: '어떤 사진 형식이 지원되나요?', a: 'JPEG, HEIC/HIF, PNG, RAW(DNG, ARW), MP4, MOV를 지원합니다.' },
+      { q: 'NAS에 연결하는 방법은?', a: '앱에서 서버를 추가하고 SMB 서버 주소, 사용자 이름, 비밀번호를 입력하세요. 기기가 NAS와 같은 로컬 네트워크에 있거나 원격 액세스가 구성되어 있는지 확인하세요.' },
+      { q: '무료 체험 후 어떻게 되나요?', a: '3일 무료 체험 후 구매하지 않으면 로컬 사진 보관함에만 접근할 수 있습니다.' },
+    ],
+    'features.items': [
+      { title: '최대 호환성', desc: 'SMB 프로토콜로 직접 연결합니다. 서버 소프트웨어가 필요 없고 특정 NAS 브랜드에 의존하지 않습니다. SMB를 지원하면 Phonas와 함께 작동합니다.' },
+      { title: '즉각적인 로딩', desc: '미디어 파일에서 내장 썸네일을 직접 추출하고 고동시성 읽기로 포토 월을 즉시 로드합니다. 서버 측 썸네일 생성을 기다릴 필요가 없습니다.' },
+      { title: '원본 화질', desc: '변환이나 압축 없이 원본 파일을 읽습니다. HDR 효과와 색상 세부 사항을 보존하며 모든 사진을 풀 화질로 표시합니다.' },
+      { title: '빠른 백업', desc: '로컬 사진 보관함을 지정된 NAS 디렉토리에 빠르게 업로드합니다. 기가비트 LAN에서 1,000장의 사진을 단 1분 만에 백업합니다.' },
+    ],
+  },
+  fr: {
+    'nav.features': 'Fonctionnalités', 'nav.pricing': 'Tarifs',
+    'nav.support': 'Support', 'nav.privacy': 'Politique de confidentialité',
+    'hero.tagline': 'Vos photos NAS, à portée de main',
+    'hero.cta': 'Télécharger sur l\'App Store',
+    'features.title': 'Pourquoi Phonas',
+    'pricing.title': 'Tarif simple', 'pricing.subtitle': 'Achetez une fois, utilisez pour toujours',
+    'pricing.trial': 'Essai gratuit 3 jours', 'pricing.price': '€7,99',
+    'pricing.note': 'Achat unique, sans abonnement', 'pricing.cta': 'Obtenir sur l\'App Store',
+    'faq.title': 'FAQ', 'faq.contact': 'Des questions ou suggestions ? Contactez',
+    'faq.items': [
+      { q: 'Quels appareils NAS Phonas supporte-t-il ?', a: 'Phonas se connecte via le protocole SMB standard et prend en charge tout appareil avec SMB activé, notamment Synology, QNAP, TrueNAS, OpenWrt, les dossiers partagés Windows, le partage macOS, et plus encore.' },
+      { q: 'Quels formats photo sont supportés ?', a: 'Actuellement supportés : JPEG, HEIC/HIF, PNG, RAW (DNG, ARW), MP4, MOV.' },
+      { q: 'Comment me connecter à mon NAS ?', a: 'Ajoutez un serveur dans l\'application et entrez l\'adresse de votre serveur SMB, le nom d\'utilisateur et le mot de passe. Assurez-vous que votre appareil est sur le même réseau local que votre NAS, ou que l\'accès à distance est configuré.' },
+      { q: 'Que se passe-t-il après l\'essai gratuit ?', a: 'Après l\'essai gratuit de 3 jours, vous ne pourrez accéder qu\'à la bibliothèque photo locale si vous n\'achetez pas.' },
+    ],
+    'features.items': [
+      { title: 'Compatibilité maximale', desc: 'Connexion directe via le protocole SMB. Aucun logiciel serveur requis, aucun verrouillage propriétaire. S\'il supporte SMB, il fonctionne avec Phonas.' },
+      { title: 'Chargement instantané', desc: 'Extrait les miniatures intégrées directement des fichiers multimédias avec des lectures haute simultanéité. Charge les murs photo instantanément sans attendre la génération de miniatures côté serveur.' },
+      { title: 'Qualité native', desc: 'Lit les fichiers originaux sans transcodage ni compression. Affiche chaque photo en pleine qualité, en préservant les effets HDR et les détails de couleur.' },
+      { title: 'Sauvegarde rapide', desc: 'Téléchargez rapidement votre bibliothèque photo locale vers un répertoire NAS désigné. Sauvegardez 1 000 photos en seulement 1 minute sur un LAN gigabit.' },
+    ],
+  },
+  de: {
+    'nav.features': 'Funktionen', 'nav.pricing': 'Preise',
+    'nav.support': 'Support', 'nav.privacy': 'Datenschutz',
+    'hero.tagline': 'Ihre NAS-Fotos, immer griffbereit',
+    'hero.cta': 'Im App Store laden',
+    'features.title': 'Warum Phonas',
+    'pricing.title': 'Einfache Preise', 'pricing.subtitle': 'Einmal kaufen, für immer nutzen',
+    'pricing.trial': '3 Tage kostenlos testen', 'pricing.price': '€7,99',
+    'pricing.note': 'Einmalkauf, kein Abonnement', 'pricing.cta': 'Im App Store holen',
+    'faq.title': 'Häufige Fragen', 'faq.contact': 'Fragen oder Vorschläge? Kontaktieren Sie uns',
+    'faq.items': [
+      { q: 'Welche NAS-Geräte unterstützt Phonas?', a: 'Phonas verbindet sich über das Standard-SMB-Protokoll und unterstützt jedes Gerät mit aktiviertem SMB, einschließlich Synology, QNAP, TrueNAS, OpenWrt, Windows-Freigaben, macOS-Freigaben und mehr.' },
+      { q: 'Welche Fotoformate werden unterstützt?', a: 'Derzeit unterstützt: JPEG, HEIC/HIF, PNG, RAW (DNG, ARW), MP4, MOV.' },
+      { q: 'Wie verbinde ich mich mit meinem NAS?', a: 'Fügen Sie in der App einen Server hinzu und geben Sie Ihre SMB-Serveradresse, Ihren Benutzernamen und Ihr Passwort ein. Stellen Sie sicher, dass sich Ihr Gerät im selben lokalen Netzwerk wie Ihr NAS befindet oder dass der Fernzugriff konfiguriert ist.' },
+      { q: 'Was passiert nach dem kostenlosen Test?', a: 'Nach dem 3-tägigen kostenlosen Test können Sie ohne Kauf nur auf die lokale Fotobibliothek zugreifen.' },
+    ],
+    'features.items': [
+      { title: 'Maximale Kompatibilität', desc: 'Direktverbindung über das SMB-Protokoll. Keine Serversoftware erforderlich, kein Anbieter-Lock-in. Wenn es SMB unterstützt, funktioniert es mit Phonas.' },
+      { title: 'Sofortiges Laden', desc: 'Extrahiert eingebettete Vorschaubilder direkt aus Mediendateien mit hochparallelen Lesevorgängen. Lädt Fotowände sofort, ohne auf serverseitige Vorschaubildgenerierung zu warten.' },
+      { title: 'Native Qualität', desc: 'Liest Originaldateien ohne Transcodierung oder Komprimierung. Zeigt jedes Foto in voller Qualität an und bewahrt HDR-Effekte und Farbdetails.' },
+      { title: 'Schnelle Sicherung', desc: 'Laden Sie Ihre lokale Fotobibliothek schnell in ein bestimmtes NAS-Verzeichnis hoch. Sichern Sie 1.000 Fotos in nur 1 Minute über ein Gigabit-LAN.' },
+    ],
+  },
+  es: {
+    'nav.features': 'Funciones', 'nav.pricing': 'Precios',
+    'nav.support': 'Soporte', 'nav.privacy': 'Política de privacidad',
+    'hero.tagline': 'Tus fotos del NAS, siempre a mano',
+    'hero.cta': 'Descargar en App Store',
+    'features.title': 'Por qué Phonas',
+    'pricing.title': 'Precio sencillo', 'pricing.subtitle': 'Compra una vez, úsalo para siempre',
+    'pricing.trial': '3 días de prueba gratuita', 'pricing.price': '$6.99',
+    'pricing.note': 'Compra única, sin suscripción', 'pricing.cta': 'Obtener en App Store',
+    'faq.title': 'Preguntas frecuentes', 'faq.contact': '¿Preguntas o sugerencias? Contáctanos',
+    'faq.items': [
+      { q: '¿Qué dispositivos NAS soporta Phonas?', a: 'Phonas se conecta mediante el protocolo SMB estándar y admite cualquier dispositivo con SMB habilitado, incluidos Synology, QNAP, TrueNAS, OpenWrt, carpetas compartidas de Windows, uso compartido de macOS y más.' },
+      { q: '¿Qué formatos de foto se admiten?', a: 'Actualmente admitidos: JPEG, HEIC/HIF, PNG, RAW (DNG, ARW), MP4, MOV.' },
+      { q: '¿Cómo me conecto a mi NAS?', a: 'Agrega un servidor en la app e ingresa la dirección de tu servidor SMB, nombre de usuario y contraseña. Asegúrate de que tu dispositivo esté en la misma red local que tu NAS, o que el acceso remoto esté configurado.' },
+      { q: '¿Qué pasa después de la prueba gratuita?', a: 'Tras los 3 días de prueba gratuita, solo podrás acceder a la biblioteca de fotos local si no realizas la compra.' },
+    ],
+    'features.items': [
+      { title: 'Compatibilidad máxima', desc: 'Conexión directa mediante protocolo SMB. No se necesita software de servidor, sin dependencia de proveedores. Si admite SMB, funciona con Phonas.' },
+      { title: 'Carga instantánea', desc: 'Extrae miniaturas incrustadas directamente de los archivos multimedia con lecturas de alta concurrencia. Carga muros de fotos al instante sin esperar la generación de miniaturas en el servidor.' },
+      { title: 'Calidad nativa', desc: 'Lee archivos originales sin transcodificación ni compresión. Muestra cada foto en plena calidad, preservando efectos HDR y detalles de color.' },
+      { title: 'Copia de seguridad rápida', desc: 'Sube rápidamente tu biblioteca de fotos local a un directorio NAS designado. Haz copia de seguridad de 1.000 fotos en solo 1 minuto en una LAN gigabit.' },
+    ],
+  },
+  ru: {
+    'nav.features': 'Функции', 'nav.pricing': 'Цены',
+    'nav.support': 'Поддержка', 'nav.privacy': 'Политика конфиденциальности',
+    'hero.tagline': 'Фото с NAS всегда под рукой',
+    'hero.cta': 'Загрузить в App Store',
+    'features.title': 'Почему Phonas',
+    'pricing.title': 'Простые цены', 'pricing.subtitle': 'Купите один раз, используйте навсегда',
+    'pricing.trial': '3 дня бесплатно', 'pricing.price': '₽599',
+    'pricing.note': 'Разовая покупка, без подписки', 'pricing.cta': 'Получить в App Store',
+    'faq.title': 'Часто задаваемые вопросы', 'faq.contact': 'Есть вопросы или предложения? Напишите нам',
+    'faq.items': [
+      { q: 'Какие устройства NAS поддерживает Phonas?', a: 'Phonas подключается по стандартному протоколу SMB и поддерживает любые устройства с включённым SMB, включая Synology, QNAP, TrueNAS, OpenWrt, общие папки Windows, общий доступ macOS и другие.' },
+      { q: 'Какие форматы фото поддерживаются?', a: 'В настоящее время поддерживаются: JPEG, HEIC/HIF, PNG, RAW (DNG, ARW), MP4, MOV.' },
+      { q: 'Как подключиться к NAS?', a: 'Добавьте сервер в приложении и введите адрес SMB-сервера, имя пользователя и пароль. Убедитесь, что ваше устройство находится в той же локальной сети, что и NAS, или настроен удалённый доступ.' },
+      { q: 'Что происходит после бесплатного пробного периода?', a: 'После 3-дневного бесплатного пробного периода без покупки вы сможете получить доступ только к локальной медиатеке.' },
+    ],
+    'features.items': [
+      { title: 'Максимальная совместимость', desc: 'Прямое подключение по протоколу SMB. Серверное программное обеспечение не требуется, нет привязки к поставщику. Если поддерживается SMB — работает с Phonas.' },
+      { title: 'Мгновенная загрузка', desc: 'Извлекает встроенные миниатюры непосредственно из медиафайлов с высокопараллельным чтением. Мгновенно загружает фотостены без ожидания генерации миниатюр на сервере.' },
+      { title: 'Нативное качество', desc: 'Читает оригинальные файлы без перекодирования и сжатия. Отображает каждое фото в полном качестве с сохранением HDR-эффектов и цветовых деталей.' },
+      { title: 'Быстрое резервное копирование', desc: 'Быстро загружайте локальную медиатеку в указанную директорию NAS. Резервное копирование 1000 фото всего за 1 минуту в гигабитной локальной сети.' },
+    ],
+  },
+  ar: {
+    'nav.features': 'الميزات', 'nav.pricing': 'الأسعار',
+    'nav.support': 'الدعم', 'nav.privacy': 'سياسة الخصوصية',
+    'hero.tagline': 'صورك على NAS، في متناول يدك دائماً',
+    'hero.cta': 'تنزيل من App Store',
+    'features.title': 'لماذا Phonas',
+    'pricing.title': 'سعر بسيط', 'pricing.subtitle': 'اشترِ مرة واحدة، استخدم للأبد',
+    'pricing.trial': 'تجربة مجانية 3 أيام', 'pricing.price': '$6.99',
+    'pricing.note': 'شراء لمرة واحدة، بدون اشتراك', 'pricing.cta': 'احصل عليه من App Store',
+    'faq.title': 'الأسئلة الشائعة', 'faq.contact': 'هل لديك أسئلة أو اقتراحات؟ تواصل معنا',
+    'faq.items': [
+      { q: 'ما أجهزة NAS التي يدعمها Phonas؟', a: 'يتصل Phonas عبر بروتوكول SMB القياسي ويدعم أي جهاز يدعم SMB، بما في ذلك Synology وQNAP وTrueNAS وOpenWrt والمجلدات المشتركة على Windows ومشاركة macOS وغيرها.' },
+      { q: 'ما صيغ الصور المدعومة؟', a: 'المدعوم حالياً: JPEG وHEIC/HIF وPNG وRAW (DNG وARW) وMP4 وMOV.' },
+      { q: 'كيف أتصل بـ NAS الخاص بي؟', a: 'أضف خادماً في التطبيق وأدخل عنوان خادم SMB واسم المستخدم وكلمة المرور. تأكد من أن جهازك على نفس الشبكة المحلية مع NAS أو أن الوصول عن بُعد مُهيَّأ.' },
+      { q: 'ماذا يحدث بعد انتهاء التجربة المجانية؟', a: 'بعد 3 أيام من التجربة المجانية، لن تتمكن إلا من الوصول إلى مكتبة الصور المحلية إذا لم تشترِ.' },
+    ],
+    'features.items': [
+      { title: 'أقصى توافقية', desc: 'اتصال مباشر عبر بروتوكول SMB. لا حاجة لبرامج خادم، لا تبعية لأي علامة تجارية. إذا كان يدعم SMB، فهو يعمل مع Phonas.' },
+      { title: 'تحميل فوري', desc: 'يستخرج الصور المصغرة المضمنة مباشرة من ملفات الوسائط بقراءة عالية التزامن. يحمّل جدار الصور فوراً دون انتظار إنشاء الصور المصغرة على الخادم.' },
+      { title: 'جودة أصلية', desc: 'يقرأ الملفات الأصلية دون ترميز أو ضغط. يعرض كل صورة بكامل جودتها مع الحفاظ على تأثيرات HDR وتفاصيل الألوان.' },
+      { title: 'نسخ احتياطي سريع', desc: 'ارفع مكتبة الصور المحلية بسرعة إلى مجلد NAS المحدد. قم بنسخ 1000 صورة احتياطياً في دقيقة واحدة فقط عبر شبكة LAN بسرعة جيجابت.' },
+    ],
+  },
+};
+
+// ── Language detection & switching ───────────────────────────────
+const LANGS = Object.keys(T);
+function detectLang() {
+  const saved = localStorage.getItem('phonas-lang');
+  if (saved && T[saved]) return saved;
+  const nav = navigator.language || '';
+  if (nav === 'zh-TW' || nav === 'zh-HK' || nav === 'zh-Hant') return 'zh-Hant';
+  if (nav.startsWith('zh')) return 'zh-Hans';
+  if (nav.startsWith('ja')) return 'ja';
+  if (nav.startsWith('ko')) return 'ko';
+  if (nav.startsWith('fr')) return 'fr';
+  if (nav.startsWith('de')) return 'de';
+  if (nav.startsWith('es')) return 'es';
+  if (nav.startsWith('ru')) return 'ru';
+  if (nav.startsWith('ar')) return 'ar';
+  return 'en';
 }
+
+let currentLang = detectLang();
+
+function applyLang(lang) {
+  currentLang = lang;
+  const t = Object.assign({}, T[lang]);
+  // zh-Hant: override price by browser locale (HK vs TW)
+  if (lang === 'zh-Hant') {
+    const locale = navigator.language || '';
+    if (locale === 'zh-HK') t['pricing.price'] = 'HK$58';
+  }
+  document.documentElement.lang = lang;
+  document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+  document.getElementById('langSelect').value = lang;
+  // Apply static i18n keys
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (t[key] !== undefined) el.textContent = t[key];
+  });
+  // Re-render feature list & FAQ with current lang
+  renderList();
+  renderFaq();
+}
+
+function setLang(lang) { localStorage.setItem('phonas-lang', lang); applyLang(lang); }
 
 // ── Feature + Phone showcase ──────────────────────────────────────
 const DURATION = 5000; // ms per slide
 
-const features = [
-    {
-        img: 'images/connect.heic',
-        icon: '🔌',
-        zh: { title: '最大兼容性', desc: '通过 SMB 协议直接连接。无需安装任何服务端软件，不依赖特定 NAS 品牌。只要支持 SMB，就能用 Phonas。' },
-        en: { title: 'Maximum Compatibility', desc: 'Connect directly via SMB protocol. No server software needed, no vendor lock-in. If it supports SMB, it works with Phonas.' },
-    },
-    {
-        img: 'images/gallery.heic',
-        icon: '⚡',
-        zh: { title: '即刻加载', desc: '直接从媒体文件中提取内嵌缩略图，配合高并发读取，瞬间加载照片墙。无需等待服务器生成缩略图。' },
-        en: { title: 'Instant Loading', desc: 'Extracts embedded thumbnails directly from media files with high-concurrency reads. Loads photo walls instantly without waiting for server-side thumbnail generation.' },
-    },
-    {
-        img: 'images/photoview.heic',
-        icon: '🎨',
-        zh: { title: '原生画质', desc: '读取原始文件，不做转码压缩。以原始质量显示每一张照片，完整保留 HDR 效果和色彩细节。' },
-        en: { title: 'Native Quality', desc: 'Reads original files without transcoding or compression. Displays every photo in full quality, preserving HDR effects and color details.' },
-    },
-    {
-        img: 'images/backup.heic',
-        icon: '🚀',
-        zh: { title: '快速备份', desc: '快速将本地相册上传到 NAS 指定目录。在千兆局域网下，备份 1000 张照片仅需 1 分钟。' },
-        en: { title: 'Fast Backup', desc: 'Quickly upload your local photo library to a designated NAS directory. Back up 1,000 photos in just 1 minute over a gigabit LAN.' },
-    },
+const featureImgs = [
+    { img: 'images/connect.heic', icon: '🔌' },
+    { img: 'images/gallery.heic', icon: '⚡' },
+    { img: 'images/photoview.heic', icon: '🎨' },
+    { img: 'images/backup.heic', icon: '🚀' },
 ];
+
+// Preload images
+featureImgs.forEach(f => { const i = new Image(); i.src = f.img; });
 
 const screenEl   = document.getElementById('featureScreen');
 const listEl     = document.getElementById('featuresList');
@@ -475,22 +690,28 @@ let current      = 0;
 let autoTimer    = null;
 let slideDir     = 1;
 
-// Preload images
-features.forEach(f => { const i = new Image(); i.src = f.img; });
-
 function renderList() {
-    listEl.innerHTML = features.map((f, i) => `
+    const items = T[currentLang]['features.items'];
+    listEl.innerHTML = featureImgs.map((f, i) => `
         <div class="feature-item ${i === current ? 'active' : ''}" onclick="goTo(${i}, true)">
             <div class="feature-item-icon">${f.icon}</div>
             <div class="feature-item-text">
-                <h3 class="lang-zh${isEn ? ' lang-hidden' : ''}">${f.zh.title}</h3>
-                <h3 class="lang-en${!isEn ? ' lang-hidden' : ''}">${f.en.title}</h3>
-                <p class="lang-zh${isEn ? ' lang-hidden' : ''}">${f.zh.desc}</p>
-                <p class="lang-en${!isEn ? ' lang-hidden' : ''}">${f.en.desc}</p>
+                <h3>${items[i].title}</h3>
+                <p>${items[i].desc}</p>
             </div>
             <div class="feature-progress">
                 <div class="feature-progress-bar" style="--progress-duration:${DURATION}ms"></div>
             </div>
+        </div>
+    `).join('');
+}
+
+function renderFaq() {
+    const items = T[currentLang]['faq.items'];
+    document.getElementById('faqList').innerHTML = items.map(item => `
+        <div class="faq-item">
+            <h3>${item.q}</h3>
+            <p>${item.a}</p>
         </div>
     `).join('');
 }
@@ -513,9 +734,9 @@ function switchScreen(newSrc) {
 
 function goTo(index, userTriggered = false) {
     if (index === current && !userTriggered) return;
-    slideDir = ((index - current + features.length) % features.length <= features.length / 2) ? 1 : -1;
+    slideDir = ((index - current + featureImgs.length) % featureImgs.length <= featureImgs.length / 2) ? 1 : -1;
     current = index;
-    switchScreen(features[current].img);
+    switchScreen(featureImgs[current].img);
     renderList();
     if (userTriggered) resetAuto();
 }
@@ -524,13 +745,13 @@ function resetAuto() {
     clearInterval(autoTimer);
     autoTimer = setInterval(() => {
         slideDir = 1;
-        current = (current + 1) % features.length;
-        switchScreen(features[current].img);
+        current = (current + 1) % featureImgs.length;
+        switchScreen(featureImgs[current].img);
         renderList();
     }, DURATION);
 }
 
-renderList();
+applyLang(currentLang);
 resetAuto();
 </script>
 

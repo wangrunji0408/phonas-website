@@ -39,6 +39,11 @@
             background: var(--card-bg); border: 1px solid var(--card-border);
             color: var(--text); padding: 6px 12px; border-radius: 8px;
             cursor: pointer; font-size: 13px;
+            appearance: none; -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a0a0a0' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            padding-right: 28px;
         }
         .content {
             max-width: 900px; margin: 0 auto; padding: 120px 24px 80px;
@@ -64,98 +69,23 @@
             <img src="icon.png" alt="Phonas">
             <span>Phonas</span>
         </a>
-        <button class="lang-switch" onclick="toggleLang()">中文</button>
+        <select class="lang-switch" id="langSelect" onchange="setLang(this.value)">
+            <option value="en">English</option>
+            <option value="zh-Hans">简体中文</option>
+            <option value="zh-Hant">繁體中文</option>
+            <option value="ja">日本語</option>
+            <option value="ko">한국어</option>
+            <option value="fr">Français</option>
+            <option value="de">Deutsch</option>
+            <option value="es">Español</option>
+            <option value="ru">Русский</option>
+            <option value="ar">العربية</option>
+        </select>
     </div>
 </nav>
 
-<div class="content">
-
-    <!-- Chinese -->
-    <div class="lang-zh">
-        <h1>隐私政策</h1>
-        <p class="updated">最后更新：2026年2月</p>
-
-        <h2>概述</h2>
-        <p>Phonas（以下简称"本应用"）尊重并保护用户隐私。本隐私政策说明了本应用如何处理您的数据。</p>
-
-        <h2>数据收集</h2>
-        <p>本应用<strong>不收集、不存储、不传输</strong>任何个人数据到外部服务器。具体而言：</p>
-        <ul>
-            <li>本应用不使用任何第三方分析或追踪服务</li>
-            <li>本应用不收集任何使用数据、崩溃报告或设备信息</li>
-            <li>本应用不包含任何广告或广告追踪</li>
-        </ul>
-
-        <h2>本地数据</h2>
-        <p>本应用在本地设备上存储以下数据，这些数据仅保存在您的设备上，不会上传到任何服务器：</p>
-        <ul>
-            <li><strong>SMB 连接信息：</strong>您配置的服务器地址、用户名和密码。这些凭据安全存储在 iOS 钥匙串（Keychain）中。</li>
-            <li><strong>媒体缓存：</strong>从 NAS 读取的照片缩略图和元数据会缓存在本地，以提升浏览速度和离线访问体验。</li>
-        </ul>
-
-        <h2>网络通信</h2>
-        <p>本应用仅通过 SMB 协议与您指定的 NAS 服务器通信。本应用不会连接任何其他外部服务器。所有网络通信均发生在您的本地网络中。</p>
-
-        <h2>照片访问</h2>
-        <p>本应用通过 SMB 协议读取您 NAS 上的照片文件。本应用可能访问您 iOS 设备上的本地相册，以展示或上传到 NAS 上。</p>
-
-        <h2>数据安全</h2>
-        <p>SMB 连接凭据使用 iOS 钥匙串安全存储，受操作系统级别的加密保护。</p>
-
-        <h2>儿童隐私</h2>
-        <p>本应用不针对 13 岁以下儿童，也不会有意收集儿童的任何信息。</p>
-
-        <h2>隐私政策变更</h2>
-        <p>如本隐私政策有任何变更，我们会在此页面更新。建议您定期查看本页面。</p>
-
-        <h2>联系我们</h2>
-        <p>如果您对本隐私政策有任何疑问，请通过以下方式联系我们：</p>
-        <p>邮箱：<a href="mailto:wrji0408@gmail.com">wrji0408@gmail.com</a></p>
-    </div>
-
-    <!-- English -->
-    <div class="lang-en">
-        <h1>Privacy Policy</h1>
-        <p class="updated">Last updated: February 2026</p>
-
-        <h2>Overview</h2>
-        <p>Phonas ("the App") respects and protects user privacy. This privacy policy explains how the App handles your data.</p>
-
-        <h2>Data Collection</h2>
-        <p>The App <strong>does not collect, store, or transmit</strong> any personal data to external servers. Specifically:</p>
-        <ul>
-            <li>The App does not use any third-party analytics or tracking services</li>
-            <li>The App does not collect any usage data, crash reports, or device information</li>
-            <li>The App does not contain any advertisements or ad tracking</li>
-        </ul>
-
-        <h2>Local Data</h2>
-        <p>The App stores the following data locally on your device. This data is kept only on your device and is never uploaded to any server:</p>
-        <ul>
-            <li><strong>SMB Connection Details:</strong> Server addresses, usernames, and passwords you configure. These credentials are securely stored in the iOS Keychain.</li>
-            <li><strong>Media Cache:</strong> Photo thumbnails and metadata read from your NAS are cached locally to improve browsing speed and enable offline access.</li>
-        </ul>
-
-        <h2>Network Communication</h2>
-        <p>The App communicates only with the NAS server you specify via the SMB protocol. The App does not connect to any other external servers. All network communication occurs within your local network.</p>
-
-        <h2>Photo Access</h2>
-        <p>The App reads photo files from your NAS via the SMB protocol. The App may access the local photo library on your iOS device in order to display or upload photos to your NAS.</p>
-
-        <h2>Data Security</h2>
-        <p>SMB connection credentials are securely stored using the iOS Keychain, protected by operating system-level encryption.</p>
-
-        <h2>Children's Privacy</h2>
-        <p>The App is not directed at children under the age of 13 and does not knowingly collect any information from children.</p>
-
-        <h2>Changes to This Policy</h2>
-        <p>If there are any changes to this privacy policy, we will update this page. We encourage you to review this page periodically.</p>
-
-        <h2>Contact Us</h2>
-        <p>If you have any questions about this privacy policy, please contact us at:</p>
-        <p>Email: <a href="mailto:wrji0408@gmail.com">wrji0408@gmail.com</a></p>
-    </div>
-
+<div class="content" id="privacyContent">
+    <!-- rendered by JS -->
 </div>
 
 <footer>
@@ -163,15 +93,189 @@
 </footer>
 
 <script>
-let isEn = true;
-document.querySelectorAll('.lang-zh').forEach(el => el.classList.add('lang-hidden'));
-function toggleLang() {
-    isEn = !isEn;
-    document.documentElement.lang = isEn ? 'en' : 'zh-Hans';
-    document.querySelector('.lang-switch').textContent = isEn ? '中文' : 'EN';
-    document.querySelectorAll('.lang-zh').forEach(el => el.classList.toggle('lang-hidden', isEn));
-    document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('lang-hidden', !isEn));
+const T = {
+  en: {
+    title: 'Privacy Policy', updated: 'Last updated: February 2026',
+    sections: [
+      { h: 'Overview', p: 'Phonas ("the App") respects and protects user privacy. This privacy policy explains how the App handles your data.' },
+      { h: 'Data Collection', p: 'The App <strong>does not collect, store, or transmit</strong> any personal data to external servers. Specifically:', ul: ['The App does not use any third-party analytics or tracking services', 'The App does not collect any usage data, crash reports, or device information', 'The App does not contain any advertisements or ad tracking'] },
+      { h: 'Local Data', p: 'The App stores the following data locally on your device. This data is kept only on your device and is never uploaded to any server:', ul: ['<strong>SMB Connection Details:</strong> Server addresses, usernames, and passwords you configure. These credentials are securely stored in the iOS Keychain.', '<strong>Media Cache:</strong> Photo thumbnails and metadata read from your NAS are cached locally to improve browsing speed and enable offline access.'] },
+      { h: 'Network Communication', p: 'The App communicates only with the NAS server you specify via the SMB protocol. The App does not connect to any other external servers. All network communication occurs within your local network.' },
+      { h: 'Photo Access', p: 'The App reads photo files from your NAS via the SMB protocol. The App may access the local photo library on your iOS device in order to display or upload photos to your NAS.' },
+      { h: 'Data Security', p: 'SMB connection credentials are securely stored using the iOS Keychain, protected by operating system-level encryption.' },
+      { h: "Children's Privacy", p: 'The App is not directed at children under the age of 13 and does not knowingly collect any information from children.' },
+      { h: 'Changes to This Policy', p: 'If there are any changes to this privacy policy, we will update this page. We encourage you to review this page periodically.' },
+      { h: 'Contact Us', p: 'If you have any questions about this privacy policy, please contact us at:<br>Email: <a href="mailto:wrji0408@gmail.com">wrji0408@gmail.com</a>' },
+    ],
+  },
+  'zh-Hans': {
+    title: '隐私政策', updated: '最后更新：2026年2月',
+    sections: [
+      { h: '概述', p: 'Phonas（以下简称"本应用"）尊重并保护用户隐私。本隐私政策说明了本应用如何处理您的数据。' },
+      { h: '数据收集', p: '本应用<strong>不收集、不存储、不传输</strong>任何个人数据到外部服务器。具体而言：', ul: ['本应用不使用任何第三方分析或追踪服务', '本应用不收集任何使用数据、崩溃报告或设备信息', '本应用不包含任何广告或广告追踪'] },
+      { h: '本地数据', p: '本应用在本地设备上存储以下数据，这些数据仅保存在您的设备上，不会上传到任何服务器：', ul: ['<strong>SMB 连接信息：</strong>您配置的服务器地址、用户名和密码。这些凭据安全存储在 iOS 钥匙串（Keychain）中。', '<strong>媒体缓存：</strong>从 NAS 读取的照片缩略图和元数据会缓存在本地，以提升浏览速度和离线访问体验。'] },
+      { h: '网络通信', p: '本应用仅通过 SMB 协议与您指定的 NAS 服务器通信。本应用不会连接任何其他外部服务器。所有网络通信均发生在您的本地网络中。' },
+      { h: '照片访问', p: '本应用通过 SMB 协议读取您 NAS 上的照片文件。本应用可能访问您 iOS 设备上的本地相册，以展示或上传到 NAS 上。' },
+      { h: '数据安全', p: 'SMB 连接凭据使用 iOS 钥匙串安全存储，受操作系统级别的加密保护。' },
+      { h: '儿童隐私', p: '本应用不针对 13 岁以下儿童，也不会有意收集儿童的任何信息。' },
+      { h: '隐私政策变更', p: '如本隐私政策有任何变更，我们会在此页面更新。建议您定期查看本页面。' },
+      { h: '联系我们', p: '如果您对本隐私政策有任何疑问，请通过以下方式联系我们：<br>邮箱：<a href="mailto:wrji0408@gmail.com">wrji0408@gmail.com</a>' },
+    ],
+  },
+  'zh-Hant': {
+    title: '隱私權政策', updated: '最後更新：2026年2月',
+    sections: [
+      { h: '概述', p: 'Phonas（以下簡稱「本應用程式」）尊重並保護使用者隱私。本隱私權政策說明本應用程式如何處理您的資料。' },
+      { h: '資料收集', p: '本應用程式<strong>不收集、不儲存、不傳輸</strong>任何個人資料至外部伺服器。具體而言：', ul: ['本應用程式不使用任何第三方分析或追蹤服務', '本應用程式不收集任何使用資料、當機報告或裝置資訊', '本應用程式不包含任何廣告或廣告追蹤'] },
+      { h: '本機資料', p: '本應用程式在本機裝置上儲存以下資料，這些資料僅保存在您的裝置上，不會上傳至任何伺服器：', ul: ['<strong>SMB 連線資訊：</strong>您設定的伺服器位址、使用者名稱和密碼。這些憑證安全地儲存在 iOS 鑰匙圈（Keychain）中。', '<strong>媒體快取：</strong>從 NAS 讀取的相片縮圖和詮釋資料會快取在本機，以提升瀏覽速度和離線存取體驗。'] },
+      { h: '網路通訊', p: '本應用程式僅透過 SMB 協議與您指定的 NAS 伺服器通訊。本應用程式不會連線至任何其他外部伺服器。所有網路通訊均發生在您的區域網路中。' },
+      { h: '相片存取', p: '本應用程式透過 SMB 協議讀取您 NAS 上的相片檔案。本應用程式可能存取您 iOS 裝置上的本機相簿，以展示或上傳至 NAS。' },
+      { h: '資料安全', p: 'SMB 連線憑證使用 iOS 鑰匙圈安全儲存，受作業系統層級的加密保護。' },
+      { h: '兒童隱私', p: '本應用程式不針對 13 歲以下兒童，也不會有意收集兒童的任何資訊。' },
+      { h: '隱私權政策變更', p: '若本隱私權政策有任何變更，我們會在此頁面更新。建議您定期查看本頁面。' },
+      { h: '聯絡我們', p: '如果您對本隱私權政策有任何疑問，請透過以下方式聯絡我們：<br>電子郵件：<a href="mailto:wrji0408@gmail.com">wrji0408@gmail.com</a>' },
+    ],
+  },
+  ja: {
+    title: 'プライバシーポリシー', updated: '最終更新：2026年2月',
+    sections: [
+      { h: '概要', p: 'Phonas（以下「本アプリ」）はユーザーのプライバシーを尊重・保護します。本プライバシーポリシーは、本アプリがどのようにデータを扱うかを説明します。' },
+      { h: 'データ収集', p: '本アプリは外部サーバーへの個人データの収集・保存・送信を<strong>一切行いません</strong>。具体的には：', ul: ['サードパーティの分析・追跡サービスを使用しません', '使用状況データ、クラッシュレポート、デバイス情報を収集しません', '広告や広告トラッキングを含みません'] },
+      { h: 'ローカルデータ', p: '本アプリはお使いのデバイスに以下のデータをローカルに保存します。このデータはデバイス上のみに保持され、いかなるサーバーにもアップロードされません：', ul: ['<strong>SMB接続情報：</strong>設定したサーバーアドレス、ユーザー名、パスワード。これらの認証情報はiOSキーチェーンに安全に保存されます。', '<strong>メディアキャッシュ：</strong>NASから読み込んだ写真のサムネイルとメタデータはブラウジング速度向上のためローカルにキャッシュされます。'] },
+      { h: 'ネットワーク通信', p: '本アプリはSMBプロトコルを介してお客様が指定したNASサーバーとのみ通信します。他の外部サーバーには接続しません。すべてのネットワーク通信はローカルネットワーク内で行われます。' },
+      { h: '写真へのアクセス', p: '本アプリはSMBプロトコルを介してNAS上の写真ファイルを読み取ります。また、写真をNASに表示またはアップロードするために、iOSデバイスのローカル写真ライブラリにアクセスする場合があります。' },
+      { h: 'データセキュリティ', p: 'SMB接続認証情報はiOSキーチェーンを使用して安全に保存され、OSレベルの暗号化で保護されます。' },
+      { h: 'お子様のプライバシー', p: '本アプリは13歳未満の子供を対象としておらず、子供の情報を意図的に収集することはありません。' },
+      { h: 'ポリシーの変更', p: 'プライバシーポリシーに変更がある場合は、このページを更新します。定期的にご確認いただくことをお勧めします。' },
+      { h: 'お問い合わせ', p: 'プライバシーポリシーについてご質問がある場合は、下記までお問い合わせください：<br>メール：<a href="mailto:wrji0408@gmail.com">wrji0408@gmail.com</a>' },
+    ],
+  },
+  ko: {
+    title: '개인정보처리방침', updated: '최종 업데이트: 2026년 2월',
+    sections: [
+      { h: '개요', p: 'Phonas(이하 "앱")는 사용자의 개인정보를 존중하고 보호합니다. 본 개인정보처리방침은 앱이 데이터를 어떻게 처리하는지 설명합니다.' },
+      { h: '데이터 수집', p: '앱은 외부 서버에 개인 데이터를 <strong>수집, 저장 또는 전송하지 않습니다</strong>. 구체적으로:', ul: ['앱은 제3자 분석 또는 추적 서비스를 사용하지 않습니다', '앱은 사용 데이터, 충돌 보고서 또는 기기 정보를 수집하지 않습니다', '앱은 광고 또는 광고 추적을 포함하지 않습니다'] },
+      { h: '로컬 데이터', p: '앱은 기기에 다음 데이터를 로컬로 저장합니다. 이 데이터는 기기에만 보관되며 어떤 서버에도 업로드되지 않습니다:', ul: ['<strong>SMB 연결 정보:</strong> 설정한 서버 주소, 사용자 이름, 비밀번호. 이 자격 증명은 iOS 키체인에 안전하게 저장됩니다.', '<strong>미디어 캐시:</strong> NAS에서 읽은 사진 썸네일과 메타데이터는 탐색 속도 향상을 위해 로컬에 캐시됩니다.'] },
+      { h: '네트워크 통신', p: '앱은 SMB 프로토콜을 통해 사용자가 지정한 NAS 서버와만 통신합니다. 다른 외부 서버에는 연결하지 않습니다. 모든 네트워크 통신은 로컬 네트워크 내에서 이루어집니다.' },
+      { h: '사진 접근', p: '앱은 SMB 프로토콜을 통해 NAS의 사진 파일을 읽습니다. NAS에 사진을 표시하거나 업로드하기 위해 iOS 기기의 로컬 사진 보관함에 접근할 수 있습니다.' },
+      { h: '데이터 보안', p: 'SMB 연결 자격 증명은 iOS 키체인을 사용하여 안전하게 저장되며 OS 수준의 암호화로 보호됩니다.' },
+      { h: '아동 개인정보', p: '앱은 13세 미만 아동을 대상으로 하지 않으며 아동의 정보를 의도적으로 수집하지 않습니다.' },
+      { h: '정책 변경', p: '본 개인정보처리방침이 변경될 경우 이 페이지를 업데이트합니다. 주기적으로 확인하시기 바랍니다.' },
+      { h: '문의하기', p: '개인정보처리방침에 관한 질문이 있으시면 아래로 연락하세요:<br>이메일: <a href="mailto:wrji0408@gmail.com">wrji0408@gmail.com</a>' },
+    ],
+  },
+  fr: {
+    title: 'Politique de confidentialité', updated: 'Dernière mise à jour : février 2026',
+    sections: [
+      { h: 'Aperçu', p: 'Phonas (« l\'Application ») respecte et protège la vie privée des utilisateurs. Cette politique de confidentialité explique comment l\'Application traite vos données.' },
+      { h: 'Collecte de données', p: 'L\'Application <strong>ne collecte, ne stocke ni ne transmet</strong> aucune donnée personnelle vers des serveurs externes. Plus précisément :', ul: ['L\'Application n\'utilise aucun service d\'analyse ou de suivi tiers', 'L\'Application ne collecte aucune donnée d\'utilisation, rapport de plantage ou information sur l\'appareil', 'L\'Application ne contient aucune publicité ni suivi publicitaire'] },
+      { h: 'Données locales', p: 'L\'Application stocke les données suivantes localement sur votre appareil. Ces données sont conservées uniquement sur votre appareil et ne sont jamais téléchargées vers un serveur :', ul: ['<strong>Détails de connexion SMB :</strong> Adresses de serveur, noms d\'utilisateur et mots de passe que vous configurez. Ces identifiants sont stockés en toute sécurité dans le trousseau iOS.', '<strong>Cache multimédia :</strong> Les miniatures de photos et les métadonnées lues depuis votre NAS sont mises en cache localement pour améliorer la vitesse de navigation.'] },
+      { h: 'Communication réseau', p: 'L\'Application communique uniquement avec le serveur NAS que vous spécifiez via le protocole SMB. L\'Application ne se connecte à aucun autre serveur externe. Toutes les communications réseau ont lieu dans votre réseau local.' },
+      { h: 'Accès aux photos', p: 'L\'Application lit les fichiers photo depuis votre NAS via le protocole SMB. L\'Application peut accéder à la bibliothèque photo locale de votre appareil iOS pour afficher ou télécharger des photos vers votre NAS.' },
+      { h: 'Sécurité des données', p: 'Les identifiants de connexion SMB sont stockés en toute sécurité à l\'aide du trousseau iOS, protégés par un chiffrement au niveau du système d\'exploitation.' },
+      { h: 'Confidentialité des enfants', p: 'L\'Application ne s\'adresse pas aux enfants de moins de 13 ans et ne collecte pas sciemment d\'informations sur les enfants.' },
+      { h: 'Modifications de cette politique', p: 'En cas de modification de cette politique de confidentialité, nous mettrons à jour cette page. Nous vous encourageons à la consulter régulièrement.' },
+      { h: 'Nous contacter', p: 'Si vous avez des questions concernant cette politique de confidentialité, veuillez nous contacter :<br>E-mail : <a href="mailto:wrji0408@gmail.com">wrji0408@gmail.com</a>' },
+    ],
+  },
+  de: {
+    title: 'Datenschutzerklärung', updated: 'Zuletzt aktualisiert: Februar 2026',
+    sections: [
+      { h: 'Übersicht', p: 'Phonas („die App") respektiert und schützt die Privatsphäre der Nutzer. Diese Datenschutzerklärung erläutert, wie die App mit Ihren Daten umgeht.' },
+      { h: 'Datenerhebung', p: 'Die App <strong>erhebt, speichert oder überträgt keine</strong> personenbezogenen Daten an externe Server. Im Einzelnen:', ul: ['Die App verwendet keine Drittanbieter-Analyse- oder Tracking-Dienste', 'Die App erhebt keine Nutzungsdaten, Absturzberichte oder Geräteinformationen', 'Die App enthält keine Werbung oder Werbe-Tracking'] },
+      { h: 'Lokale Daten', p: 'Die App speichert folgende Daten lokal auf Ihrem Gerät. Diese Daten verbleiben ausschließlich auf Ihrem Gerät und werden nie auf einen Server hochgeladen:', ul: ['<strong>SMB-Verbindungsdaten:</strong> Von Ihnen konfigurierte Serveradressen, Benutzernamen und Passwörter. Diese Zugangsdaten werden sicher in der iOS-Keychain gespeichert.', '<strong>Medien-Cache:</strong> Von Ihrem NAS gelesene Foto-Vorschaubilder und Metadaten werden lokal gecacht, um die Surfgeschwindigkeit zu verbessern.'] },
+      { h: 'Netzwerkkommunikation', p: 'Die App kommuniziert ausschließlich mit dem von Ihnen angegebenen NAS-Server über das SMB-Protokoll. Die App verbindet sich mit keinem anderen externen Server. Die gesamte Netzwerkkommunikation findet in Ihrem lokalen Netzwerk statt.' },
+      { h: 'Foto-Zugriff', p: 'Die App liest Fotodateien von Ihrem NAS über das SMB-Protokoll. Die App kann auf die lokale Fotobibliothek Ihres iOS-Geräts zugreifen, um Fotos anzuzeigen oder auf Ihr NAS hochzuladen.' },
+      { h: 'Datensicherheit', p: 'SMB-Verbindungsdaten werden sicher in der iOS-Keychain gespeichert und durch Verschlüsselung auf Betriebssystemebene geschützt.' },
+      { h: 'Datenschutz für Kinder', p: 'Die App richtet sich nicht an Kinder unter 13 Jahren und erhebt wissentlich keine Informationen von Kindern.' },
+      { h: 'Änderungen dieser Richtlinie', p: 'Bei Änderungen dieser Datenschutzerklärung werden wir diese Seite aktualisieren. Wir empfehlen Ihnen, diese Seite regelmäßig zu überprüfen.' },
+      { h: 'Kontakt', p: 'Wenn Sie Fragen zu dieser Datenschutzerklärung haben, kontaktieren Sie uns bitte unter:<br>E-Mail: <a href="mailto:wrji0408@gmail.com">wrji0408@gmail.com</a>' },
+    ],
+  },
+  es: {
+    title: 'Política de privacidad', updated: 'Última actualización: febrero de 2026',
+    sections: [
+      { h: 'Descripción general', p: 'Phonas ("la App") respeta y protege la privacidad de los usuarios. Esta política de privacidad explica cómo la App gestiona sus datos.' },
+      { h: 'Recopilación de datos', p: 'La App <strong>no recopila, almacena ni transmite</strong> ningún dato personal a servidores externos. Específicamente:', ul: ['La App no utiliza ningún servicio de análisis o seguimiento de terceros', 'La App no recopila datos de uso, informes de fallos ni información del dispositivo', 'La App no contiene publicidad ni seguimiento publicitario'] },
+      { h: 'Datos locales', p: 'La App almacena los siguientes datos localmente en su dispositivo. Estos datos se conservan solo en su dispositivo y nunca se cargan a ningún servidor:', ul: ['<strong>Detalles de conexión SMB:</strong> Direcciones de servidor, nombres de usuario y contraseñas que configura. Estas credenciales se almacenan de forma segura en el llavero de iOS.', '<strong>Caché de medios:</strong> Las miniaturas de fotos y los metadatos leídos desde su NAS se almacenan en caché localmente para mejorar la velocidad de navegación.'] },
+      { h: 'Comunicación de red', p: 'La App se comunica únicamente con el servidor NAS que usted especifica mediante el protocolo SMB. La App no se conecta a ningún otro servidor externo. Toda la comunicación de red ocurre dentro de su red local.' },
+      { h: 'Acceso a fotos', p: 'La App lee archivos de fotos desde su NAS mediante el protocolo SMB. La App puede acceder a la biblioteca de fotos local de su dispositivo iOS para mostrar o cargar fotos a su NAS.' },
+      { h: 'Seguridad de datos', p: 'Las credenciales de conexión SMB se almacenan de forma segura mediante el llavero de iOS, protegidas por cifrado a nivel del sistema operativo.' },
+      { h: 'Privacidad de menores', p: 'La App no está dirigida a niños menores de 13 años y no recopila intencionalmente información de niños.' },
+      { h: 'Cambios en esta política', p: 'Si hay cambios en esta política de privacidad, actualizaremos esta página. Le recomendamos que la revise periódicamente.' },
+      { h: 'Contacto', p: 'Si tiene alguna pregunta sobre esta política de privacidad, contáctenos en:<br>Correo electrónico: <a href="mailto:wrji0408@gmail.com">wrji0408@gmail.com</a>' },
+    ],
+  },
+  ru: {
+    title: 'Политика конфиденциальности', updated: 'Последнее обновление: февраль 2026',
+    sections: [
+      { h: 'Обзор', p: 'Phonas («Приложение») уважает и защищает конфиденциальность пользователей. Настоящая политика конфиденциальности объясняет, как Приложение обрабатывает ваши данные.' },
+      { h: 'Сбор данных', p: 'Приложение <strong>не собирает, не хранит и не передаёт</strong> личные данные на внешние серверы. В частности:', ul: ['Приложение не использует сторонние сервисы аналитики или отслеживания', 'Приложение не собирает данные об использовании, отчёты о сбоях или информацию об устройстве', 'Приложение не содержит рекламы или рекламного отслеживания'] },
+      { h: 'Локальные данные', p: 'Приложение хранит следующие данные локально на вашем устройстве. Эти данные хранятся только на вашем устройстве и никогда не загружаются на серверы:', ul: ['<strong>Данные SMB-подключения:</strong> Адреса серверов, имена пользователей и пароли, которые вы настраиваете. Эти учётные данные надёжно хранятся в iOS Keychain.', '<strong>Медиакэш:</strong> Миниатюры фотографий и метаданные, считанные с вашего NAS, кэшируются локально для повышения скорости просмотра.'] },
+      { h: 'Сетевое взаимодействие', p: 'Приложение взаимодействует только с NAS-сервером, который вы указали, через протокол SMB. Приложение не подключается к другим внешним серверам. Все сетевые коммуникации происходят в вашей локальной сети.' },
+      { h: 'Доступ к фотографиям', p: 'Приложение читает файлы фотографий с вашего NAS через протокол SMB. Приложение может получать доступ к локальной медиатеке вашего iOS-устройства для отображения или загрузки фотографий на NAS.' },
+      { h: 'Безопасность данных', p: 'Учётные данные SMB-подключений надёжно хранятся в iOS Keychain, защищённом шифрованием на уровне операционной системы.' },
+      { h: 'Конфиденциальность детей', p: 'Приложение не предназначено для детей до 13 лет и намеренно не собирает информацию о детях.' },
+      { h: 'Изменения политики', p: 'При внесении изменений в настоящую политику конфиденциальности мы обновим эту страницу. Рекомендуем периодически её просматривать.' },
+      { h: 'Свяжитесь с нами', p: 'Если у вас есть вопросы по данной политике конфиденциальности, свяжитесь с нами:<br>Email: <a href="mailto:wrji0408@gmail.com">wrji0408@gmail.com</a>' },
+    ],
+  },
+  ar: {
+    title: 'سياسة الخصوصية', updated: 'آخر تحديث: فبراير 2026',
+    sections: [
+      { h: 'نظرة عامة', p: 'تحترم Phonas («التطبيق») خصوصية المستخدمين وتحميها. توضح سياسة الخصوصية هذه كيفية تعامل التطبيق مع بياناتك.' },
+      { h: 'جمع البيانات', p: 'التطبيق <strong>لا يجمع أو يخزن أو ينقل</strong> أي بيانات شخصية إلى خوادم خارجية. تحديداً:', ul: ['لا يستخدم التطبيق أي خدمات تحليل أو تتبع من طرف ثالث', 'لا يجمع التطبيق أي بيانات استخدام أو تقارير أعطال أو معلومات الجهاز', 'لا يحتوي التطبيق على إعلانات أو تتبع إعلاني'] },
+      { h: 'البيانات المحلية', p: 'يخزن التطبيق البيانات التالية محلياً على جهازك. تُحفظ هذه البيانات على جهازك فقط ولا تُرفع إلى أي خادم:', ul: ['<strong>تفاصيل اتصال SMB:</strong> عناوين الخوادم وأسماء المستخدمين وكلمات المرور التي تقوم بتهيئتها. تُخزَّن هذه البيانات بأمان في سلسلة مفاتيح iOS.', '<strong>ذاكرة التخزين المؤقت للوسائط:</strong> تُخزَّن الصور المصغرة والبيانات الوصفية المقروءة من NAS محلياً لتحسين سرعة التصفح.'] },
+      { h: 'الاتصال بالشبكة', p: 'يتواصل التطبيق فقط مع خادم NAS الذي تحدده عبر بروتوكول SMB. لا يتصل التطبيق بأي خوادم خارجية أخرى. تجري جميع اتصالات الشبكة داخل شبكتك المحلية.' },
+      { h: 'الوصول إلى الصور', p: 'يقرأ التطبيق ملفات الصور من NAS عبر بروتوكول SMB. قد يصل التطبيق إلى مكتبة الصور المحلية على جهاز iOS الخاص بك لعرض الصور أو رفعها إلى NAS.' },
+      { h: 'أمان البيانات', p: 'تُخزَّن بيانات اعتماد اتصال SMB بأمان باستخدام سلسلة مفاتيح iOS، محمية بتشفير على مستوى نظام التشغيل.' },
+      { h: 'خصوصية الأطفال', p: 'لا يستهدف التطبيق الأطفال دون سن 13 عاماً ولا يجمع معلوماتهم عمداً.' },
+      { h: 'التغييرات على هذه السياسة', p: 'في حال إجراء أي تغييرات على سياسة الخصوصية هذه، سنقوم بتحديث هذه الصفحة. نشجعك على مراجعتها بشكل دوري.' },
+      { h: 'اتصل بنا', p: 'إذا كان لديك أي أسئلة حول سياسة الخصوصية هذه، يرجى التواصل معنا:<br>البريد الإلكتروني: <a href="mailto:wrji0408@gmail.com">wrji0408@gmail.com</a>' },
+    ],
+  },
+};
+
+function detectLang() {
+  const saved = localStorage.getItem('phonas-lang');
+  if (saved && T[saved]) return saved;
+  const nav = navigator.language || '';
+  if (nav === 'zh-TW' || nav === 'zh-HK' || nav === 'zh-Hant') return 'zh-Hant';
+  if (nav.startsWith('zh')) return 'zh-Hans';
+  if (nav.startsWith('ja')) return 'ja';
+  if (nav.startsWith('ko')) return 'ko';
+  if (nav.startsWith('fr')) return 'fr';
+  if (nav.startsWith('de')) return 'de';
+  if (nav.startsWith('es')) return 'es';
+  if (nav.startsWith('ru')) return 'ru';
+  if (nav.startsWith('ar')) return 'ar';
+  return 'en';
 }
+
+function renderContent(lang) {
+  const t = T[lang];
+  const html = `
+    <h1>${t.title}</h1>
+    <p class="updated">${t.updated}</p>
+    ${t.sections.map(s => `
+      <h2>${s.h}</h2>
+      <p>${s.p}</p>
+      ${s.ul ? '<ul>' + s.ul.map(li => `<li>${li}</li>`).join('') + '</ul>' : ''}
+    `).join('')}
+  `;
+  document.getElementById('privacyContent').innerHTML = html;
+}
+
+function applyLang(lang) {
+  document.documentElement.lang = lang;
+  document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+  document.getElementById('langSelect').value = lang;
+  renderContent(lang);
+}
+
+function setLang(lang) { localStorage.setItem('phonas-lang', lang); applyLang(lang); }
+
+applyLang(detectLang());
 </script>
 
 </body>
