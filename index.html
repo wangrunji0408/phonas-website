@@ -341,6 +341,37 @@
         }
         .faq-item h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
         .faq-item p { color: var(--text-secondary); font-size: 16px; margin-bottom: 0; }
+        .faq-item .faq-steps { color: var(--text-secondary); font-size: 16px; }
+        .faq-item .faq-steps ol { padding-left: 1.4em; margin: 0; }
+        .faq-item .faq-steps li { margin-bottom: 12px; }
+        .faq-step-clickable {
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .faq-step-clickable:hover { color: var(--text); }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed; inset: 0; z-index: 1000;
+            background: rgba(0,0,0,0.92);
+            align-items: center; justify-content: center;
+            cursor: zoom-out;
+        }
+        .lightbox.open { display: flex; }
+        .lightbox img {
+            max-width: 92vw; max-height: 92vh;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 20px 80px rgba(0,0,0,0.8);
+            cursor: default;
+        }
+        .lightbox-close {
+            position: absolute; top: 20px; right: 24px;
+            font-size: 32px; color: #fff; cursor: pointer;
+            line-height: 1; opacity: 0.7; transition: opacity 0.2s;
+        }
+        .lightbox-close:hover { opacity: 1; }
         .support .contact { text-align: center; margin-top: 40px; }
         .support .contact p { color: var(--text-secondary); font-size: 16px; }
         .support .contact a { color: var(--accent); text-decoration: none; }
@@ -380,8 +411,7 @@
             <select class="lang-switch" id="langSelect" onchange="setLang(this.value)">
                 <option value="en">English</option>
                 <option value="zh-Hans">简体中文</option>
-                <option value="zh-Hant-TW">繁體中文（台灣）</option>
-                <option value="zh-Hant-HK">繁體中文（香港）</option>
+                <option value="zh-Hant">繁體中文</option>
                 <option value="ja">日本語</option>
                 <option value="ko">한국어</option>
                 <option value="fr">Français</option>
@@ -476,6 +506,12 @@
     </div>
 </section>
 
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+    <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+    <img id="lightboxImg" src="" alt="" onclick="event.stopPropagation()">
+</div>
+
 <!-- Footer -->
 <footer>
     <div class="links">
@@ -496,7 +532,7 @@ const T = {
     'pricing.title': 'Pricing',
     'pricing.free.name': 'Free', 'pricing.free.price': '$0',
     'pricing.free.note': 'Forever',
-    'pricing.free.features': ['Browse photos & videos in native quality', 'Up to 1 connection'],
+    'pricing.free.features': [{mark:'✓',text:'Browse photos & videos in native quality'},{mark:'—',text:'Up to 1 connection'},{mark:'✗',text:'Photo backup'},{mark:'✗',text:'Map view'}],
     'pricing.paid.name': 'Full', 'pricing.paid.price': '$6.99',
     'pricing.paid.note': 'One-time purchase, no subscription',
     'pricing.paid.features': ['Everything in Free', 'Unlimited connections', 'Photo backup to NAS', 'Map view', 'More in future updates'],
@@ -521,8 +557,11 @@ const T = {
     'faq.items': [
       { q: 'What NAS devices does Phonas support?', a: 'Phonas connects via the standard SMB protocol and supports any device with SMB enabled, including Synology, QNAP, TrueNAS, OpenWrt, Windows shared folders, macOS sharing, and more.' },
       { q: 'What photo formats are supported?', a: 'Currently supported: JPEG, HEIC/HIF, PNG, RAW (DNG, ARW), MP4, MOV.' },
-      { q: 'How do I connect to my NAS?', a: 'Add a server in the app and enter your SMB server address, username, and password. Make sure your device is on the same local network as your NAS, or that remote access is configured.' },
-      { q: 'What features are free?', a: 'You can add 1 connection and browse all your photos and videos for free, forever. Purchase once to unlock unlimited connections, photo backup, and map view.' },
+      { q: 'How do I connect to my NAS?', a: 'In Phonas, scan for devices on your local network and select your NAS, or enter the address manually. Then enter your username and password to connect.' },
+      { q: 'How do I connect to my Mac?', steps: [
+        { text: 'In macOS Settings, open File Sharing and make sure Windows File Sharing is enabled.', img: 'images/macos-file-share.heic', imgLabel: 'View macOS File Sharing settings' },
+        { text: 'In Phonas, scan for devices on your local network, select your Mac, then enter your username and password to connect.', img: 'images/iphone-connect-macos.heic', imgLabel: 'View iPhone connection steps' },
+      ]},
     ],
     'features.items': [
       { title: 'Maximum Compatibility', desc: 'Connect directly via SMB protocol. No server software needed, no vendor lock-in. If it supports SMB, it works with Phonas.' },
@@ -540,7 +579,7 @@ const T = {
     'pricing.title': '价格',
     'pricing.free.name': '免费版', 'pricing.free.price': '¥0',
     'pricing.free.note': '永久免费',
-    'pricing.free.features': ['以原生画质浏览照片和视频', '最多 1 个连接'],
+    'pricing.free.features': [{mark:'✓',text:'以原生画质浏览照片和视频'},{mark:'—',text:'最多 1 个连接'},{mark:'✗',text:'备份照片到 NAS'},{mark:'✗',text:'地图查看'}],
     'pricing.paid.name': '完整版', 'pricing.paid.price': '¥48',
     'pricing.paid.note': '一次性买断，无订阅',
     'pricing.paid.features': ['免费版全部功能', '无限连接数', '备份照片到 NAS', '地图查看', '未来更多功能'],
@@ -565,8 +604,11 @@ const T = {
     'faq.items': [
       { q: 'Phonas 支持哪些 NAS 设备？', a: 'Phonas 通过标准 SMB 协议连接，支持所有启用了 SMB 服务的设备，包括但不限于 Synology、QNAP、TrueNAS、OpenWrt、Windows 共享文件夹、macOS 共享等。' },
       { q: '支持哪些照片格式？', a: '当前支持 JPEG、HEIC/HIF、PNG、RAW（DNG、ARW）、MP4、MOV。' },
-      { q: '如何连接到我的 NAS？', a: '在应用中添加服务器，输入 SMB 服务器地址、用户名和密码即可。确保您的设备与 NAS 在同一局域网内，或已配置远程访问。' },
-      { q: '免费版有哪些功能？', a: '免费版可添加 1 个连接，永久免费浏览所有照片和视频。购买后可解锁无限连接、照片备份和地图功能。' },
+      { q: '如何连接到我的 NAS？', a: '在 Phonas 中，扫描局域网设备，选中 NAS 地址，或者手动输入地址。输入用户名和密码，即可连接。' },
+      { q: '如何连接到我的 Mac？', steps: [
+        { text: '在 macOS 设置中，打开文件共享，确保打开 Windows 文件共享。', img: 'images/macos-file-share.heic', imgLabel: '查看 macOS 文件共享设置' },
+        { text: '在 Phonas 中，扫描局域网设备，选中 Mac 设备，输入用户名和密码，即可连接。', img: 'images/iphone-connect-macos.heic', imgLabel: '查看 iPhone 连接步骤' },
+      ]},
     ],
     'features.items': [
       { title: '最大兼容性', desc: '通过 SMB 协议直接连接。无需安装任何服务端软件，不依赖特定 NAS 品牌。只要支持 SMB，就能用 Phonas。' },
@@ -584,7 +626,7 @@ const T = {
     'pricing.title': '價格',
     'pricing.free.name': '免費版', 'pricing.free.price': 'NT$0',
     'pricing.free.note': '永久免費',
-    'pricing.free.features': ['以原生畫質瀏覽照片和影片', '最多 1 個連線'],
+    'pricing.free.features': [{mark:'✓',text:'以原生畫質瀏覽照片和影片'},{mark:'—',text:'最多 1 個連線'},{mark:'✗',text:'備份照片到 NAS'},{mark:'✗',text:'地圖檢視'}],
     'pricing.paid.name': '完整版', 'pricing.paid.price': 'NT$220',
     'pricing.paid.note': '一次性買斷，無訂閱',
     'pricing.paid.features': ['免費版全部功能', '無限連線數', '備份照片到 NAS', '地圖檢視', '未來更多功能'],
@@ -609,8 +651,11 @@ const T = {
     'faq.items': [
       { q: 'Phonas 支援哪些 NAS 裝置？', a: 'Phonas 透過標準 SMB 協議連線，支援所有啟用了 SMB 服務的裝置，包括但不限於 Synology、QNAP、TrueNAS、OpenWrt、Windows 共用資料夾、macOS 共享等。' },
       { q: '支援哪些相片格式？', a: '目前支援 JPEG、HEIC/HIF、PNG、RAW（DNG、ARW）、MP4、MOV。' },
-      { q: '如何連線到我的 NAS？', a: '在應用程式中新增伺服器，輸入 SMB 伺服器位址、使用者名稱和密碼即可。請確保您的裝置與 NAS 在同一區域網路內，或已設定遠端存取。' },
-      { q: '免費版有哪些功能？', a: '免費版可新增 1 個連線，永久免費瀏覽所有照片和影片。購買後可解鎖無限連線、照片備份和地圖功能。' },
+      { q: '如何連線到我的 NAS？', a: '在 Phonas 中，掃描區域網路裝置，選取 NAS 位址，或手動輸入位址。輸入使用者名稱和密碼，即可連線。' },
+      { q: '如何連線到我的 Mac？', steps: [
+        { text: '在 macOS 設定中，開啟檔案共享，確認已開啟 Windows 檔案共享。', img: 'images/macos-file-share.heic', imgLabel: '查看 macOS 檔案共享設定' },
+        { text: '在 Phonas 中，掃描區域網路裝置，選取 Mac 裝置，輸入使用者名稱和密碼，即可連線。', img: 'images/iphone-connect-macos.heic', imgLabel: '查看 iPhone 連線步驟' },
+      ]},
     ],
     'features.items': [
       { title: '最大相容性', desc: '透過 SMB 協議直接連線。無需安裝任何伺服器端軟體，不依賴特定 NAS 品牌。只要支援 SMB，就能使用 Phonas。' },
@@ -628,7 +673,7 @@ const T = {
     'pricing.title': '料金',
     'pricing.free.name': '無料', 'pricing.free.price': '¥0',
     'pricing.free.note': '永久無料',
-    'pricing.free.features': ['写真・動画をネイティブ画質で閲覧', '接続は1つまで'],
+    'pricing.free.features': [{mark:'✓',text:'写真・動画をネイティブ画質で閲覧'},{mark:'—',text:'接続は1つまで'},{mark:'✗',text:'写真バックアップ'},{mark:'✗',text:'マップ表示'}],
     'pricing.paid.name': 'フル版', 'pricing.paid.price': '¥1,100',
     'pricing.paid.note': '買い切り、サブスクなし',
     'pricing.paid.features': ['無料版のすべての機能', '無制限の接続', 'NASへの写真バックアップ', 'マップ表示', '今後さらに機能追加予定'],
@@ -653,8 +698,11 @@ const T = {
     'faq.items': [
       { q: 'Phonasはどのようなデバイスをサポートしていますか？', a: 'PhonasはSMBプロトコルで接続し、Synology、QNAP、TrueNAS、OpenWrt、Windowsファイル共有、macOS共有など、SMBが有効なあらゆるデバイスをサポートします。' },
       { q: 'サポートされている写真フォーマットは？', a: 'JPEG、HEIC/HIF、PNG、RAW（DNG、ARW）、MP4、MOVに対応しています。' },
-      { q: 'NASへの接続方法は？', a: 'アプリでサーバーを追加し、SMBサーバーのアドレス、ユーザー名、パスワードを入力してください。デバイスがNASと同じローカルネットワーク上にあるか、リモートアクセスが設定されていることを確認してください。' },
-      { q: '無料版でできることは？', a: '無料版では1つの接続を追加して写真・動画を永久に無料で閲覧できます。購入すると無制限の接続、写真のバックアップ、マップ表示が使えるようになります。' },
+      { q: 'NASへの接続方法は？', a: 'Phonasでローカルネットワークをスキャンし、NASを選択するか、アドレスを手動で入力してください。ユーザー名とパスワードを入力すると接続できます。' },
+      { q: 'Macへの接続方法は？', steps: [
+        { text: 'macOSの設定でファイル共有を開き、Windowsファイル共有が有効になっていることを確認してください。', img: 'images/macos-file-share.heic', imgLabel: 'macOSファイル共有設定を見る' },
+        { text: 'Phonasでローカルネットワークをスキャンし、Macを選択してユーザー名とパスワードを入力して接続します。', img: 'images/iphone-connect-macos.heic', imgLabel: 'iPhone接続手順を見る' },
+      ]},
     ],
     'features.items': [
       { title: '最大の互換性', desc: 'SMBプロトコルで直接接続。サーバーソフトウェアは不要で、特定のNASブランドに依存しません。SMBをサポートしていれば動作します。' },
@@ -672,7 +720,7 @@ const T = {
     'pricing.title': '가격',
     'pricing.free.name': '무료', 'pricing.free.price': '₩0',
     'pricing.free.note': '영구 무료',
-    'pricing.free.features': ['원본 화질로 사진·동영상 탐색', '최대 1개 연결'],
+    'pricing.free.features': [{mark:'✓',text:'원본 화질로 사진·동영상 탐색'},{mark:'—',text:'최대 1개 연결'},{mark:'✗',text:'사진 백업'},{mark:'✗',text:'지도 보기'}],
     'pricing.paid.name': '전체 버전', 'pricing.paid.price': '₩9,900',
     'pricing.paid.note': '일회성 구매, 구독 없음',
     'pricing.paid.features': ['무료 버전의 모든 기능', '무제한 연결', 'NAS로 사진 백업', '지도 보기', '향후 더 많은 기능 추가 예정'],
@@ -697,8 +745,11 @@ const T = {
     'faq.items': [
       { q: 'Phonas는 어떤 NAS 기기를 지원하나요?', a: 'Phonas는 표준 SMB 프로토콜로 연결되며, Synology, QNAP, TrueNAS, OpenWrt, Windows 공유 폴더, macOS 공유 등 SMB가 활성화된 모든 기기를 지원합니다.' },
       { q: '어떤 사진 형식이 지원되나요?', a: 'JPEG, HEIC/HIF, PNG, RAW(DNG, ARW), MP4, MOV를 지원합니다.' },
-      { q: 'NAS에 연결하는 방법은?', a: '앱에서 서버를 추가하고 SMB 서버 주소, 사용자 이름, 비밀번호를 입력하세요. 기기가 NAS와 같은 로컬 네트워크에 있거나 원격 액세스가 구성되어 있는지 확인하세요.' },
-      { q: '무료 버전에서 할 수 있는 것은?', a: '무료 버전에서는 연결 1개를 추가하고 모든 사진과 동영상을 영구 무료로 탐색할 수 있습니다. 구매하면 무제한 연결, 사진 백업, 지도 보기를 사용할 수 있습니다.' },
+      { q: 'NAS에 연결하는 방법은?', a: 'Phonas에서 로컬 네트워크 기기를 검색하여 NAS를 선택하거나 주소를 직접 입력하세요. 사용자 이름과 비밀번호를 입력하면 연결됩니다.' },
+      { q: 'Mac에 연결하는 방법은?', steps: [
+        { text: 'macOS 설정에서 파일 공유를 열고 Windows 파일 공유가 활성화되어 있는지 확인하세요.', img: 'images/macos-file-share.heic', imgLabel: 'macOS 파일 공유 설정 보기' },
+        { text: 'Phonas에서 로컬 네트워크 기기를 검색하고 Mac을 선택한 후 사용자 이름과 비밀번호를 입력하여 연결하세요.', img: 'images/iphone-connect-macos.heic', imgLabel: 'iPhone 연결 단계 보기' },
+      ]},
     ],
     'features.items': [
       { title: '최대 호환성', desc: 'SMB 프로토콜로 직접 연결합니다. 서버 소프트웨어가 필요 없고 특정 NAS 브랜드에 의존하지 않습니다. SMB를 지원하면 Phonas와 함께 작동합니다.' },
@@ -716,7 +767,7 @@ const T = {
     'pricing.title': 'Prix',
     'pricing.free.name': 'Gratuit', 'pricing.free.price': '0 €',
     'pricing.free.note': 'Pour toujours',
-    'pricing.free.features': ['Parcourir photos & vidéos en qualité native', '1 connexion maximum'],
+    'pricing.free.features': [{mark:'✓',text:'Parcourir photos & vidéos en qualité native'},{mark:'—',text:'1 connexion maximum'},{mark:'✗',text:'Sauvegarde photos'},{mark:'✗',text:'Vue carte'}],
     'pricing.paid.name': 'Complet', 'pricing.paid.price': '7,99 €',
     'pricing.paid.note': 'Achat unique, sans abonnement',
     'pricing.paid.features': ['Tout ce qui est inclus dans Gratuit', 'Connexions illimitées', 'Sauvegarde photos vers NAS', 'Vue carte', 'Plus à venir'],
@@ -741,8 +792,11 @@ const T = {
     'faq.items': [
       { q: 'Quels appareils NAS Phonas supporte-t-il ?', a: 'Phonas se connecte via le protocole SMB standard et prend en charge tout appareil avec SMB activé, notamment Synology, QNAP, TrueNAS, OpenWrt, les dossiers partagés Windows, le partage macOS, et plus encore.' },
       { q: 'Quels formats photo sont supportés ?', a: 'Actuellement supportés : JPEG, HEIC/HIF, PNG, RAW (DNG, ARW), MP4, MOV.' },
-      { q: 'Comment me connecter à mon NAS ?', a: 'Ajoutez un serveur dans l\'application et entrez l\'adresse de votre serveur SMB, le nom d\'utilisateur et le mot de passe. Assurez-vous que votre appareil est sur le même réseau local que votre NAS, ou que l\'accès à distance est configuré.' },
-      { q: 'Que peut-on faire gratuitement ?', a: 'La version gratuite permet d\'ajouter 1 connexion et de parcourir toutes vos photos et vidéos gratuitement et pour toujours. Un achat unique débloque les connexions illimitées, la sauvegarde des photos et la vue carte.' },
+      { q: 'Comment me connecter à mon NAS ?', a: 'Dans Phonas, scannez les appareils du réseau local et sélectionnez votre NAS, ou saisissez l\'adresse manuellement. Entrez votre nom d\'utilisateur et mot de passe pour vous connecter.' },
+      { q: 'Comment me connecter à mon Mac ?', steps: [
+        { text: 'Dans les Réglages macOS, ouvrez le Partage de fichiers et activez le Partage de fichiers Windows.', img: 'images/macos-file-share.heic', imgLabel: 'Voir les réglages de partage macOS' },
+        { text: 'Dans Phonas, recherchez les appareils sur le réseau local, sélectionnez votre Mac, entrez votre nom d\'utilisateur et mot de passe pour vous connecter.', img: 'images/iphone-connect-macos.heic', imgLabel: 'Voir les étapes de connexion iPhone' },
+      ]},
     ],
     'features.items': [
       { title: 'Compatibilité maximale', desc: 'Connexion directe via le protocole SMB. Aucun logiciel serveur requis, aucun verrouillage propriétaire. S\'il supporte SMB, il fonctionne avec Phonas.' },
@@ -760,7 +814,7 @@ const T = {
     'pricing.title': 'Preise',
     'pricing.free.name': 'Kostenlos', 'pricing.free.price': '0 €',
     'pricing.free.note': 'Für immer',
-    'pricing.free.features': ['Fotos & Videos in nativer Qualität ansehen', 'Maximal 1 Verbindung'],
+    'pricing.free.features': [{mark:'✓',text:'Fotos & Videos in nativer Qualität ansehen'},{mark:'—',text:'Maximal 1 Verbindung'},{mark:'✗',text:'Foto-Backup'},{mark:'✗',text:'Kartenansicht'}],
     'pricing.paid.name': 'Vollversion', 'pricing.paid.price': '7,99 €',
     'pricing.paid.note': 'Einmalkauf, kein Abonnement',
     'pricing.paid.features': ['Alles aus der Gratisversion', 'Unbegrenzte Verbindungen', 'Foto-Backup zum NAS', 'Kartenansicht', 'Mehr in zukünftigen Updates'],
@@ -785,8 +839,11 @@ const T = {
     'faq.items': [
       { q: 'Welche NAS-Geräte unterstützt Phonas?', a: 'Phonas verbindet sich über das Standard-SMB-Protokoll und unterstützt jedes Gerät mit aktiviertem SMB, einschließlich Synology, QNAP, TrueNAS, OpenWrt, Windows-Freigaben, macOS-Freigaben und mehr.' },
       { q: 'Welche Fotoformate werden unterstützt?', a: 'Derzeit unterstützt: JPEG, HEIC/HIF, PNG, RAW (DNG, ARW), MP4, MOV.' },
-      { q: 'Wie verbinde ich mich mit meinem NAS?', a: 'Fügen Sie in der App einen Server hinzu und geben Sie Ihre SMB-Serveradresse, Ihren Benutzernamen und Ihr Passwort ein. Stellen Sie sicher, dass sich Ihr Gerät im selben lokalen Netzwerk wie Ihr NAS befindet oder dass der Fernzugriff konfiguriert ist.' },
-      { q: 'Was ist in der kostenlosen Version enthalten?', a: 'Die kostenlose Version erlaubt 1 Verbindung und das dauerhafte kostenlose Durchsuchen aller Fotos und Videos. Nach dem Kauf sind unbegrenzte Verbindungen, Foto-Backup und Kartenansicht verfügbar.' },
+      { q: 'Wie verbinde ich mich mit meinem NAS?', a: 'Scannen Sie in Phonas nach Geräten im lokalen Netzwerk und wählen Sie Ihr NAS aus, oder geben Sie die Adresse manuell ein. Geben Sie Benutzernamen und Passwort ein, um eine Verbindung herzustellen.' },
+      { q: 'Wie verbinde ich mich mit meinem Mac?', steps: [
+        { text: 'Öffnen Sie in den macOS-Einstellungen die Dateifreigabe und stellen Sie sicher, dass die Windows-Dateifreigabe aktiviert ist.', img: 'images/macos-file-share.heic', imgLabel: 'macOS-Dateifreigabe-Einstellungen anzeigen' },
+        { text: 'Scannen Sie in Phonas nach Geräten im lokalen Netzwerk, wählen Sie Ihren Mac aus und geben Sie Benutzername und Passwort ein, um eine Verbindung herzustellen.', img: 'images/iphone-connect-macos.heic', imgLabel: 'iPhone-Verbindungsschritte anzeigen' },
+      ]},
     ],
     'features.items': [
       { title: 'Maximale Kompatibilität', desc: 'Direktverbindung über das SMB-Protokoll. Keine Serversoftware erforderlich, kein Anbieter-Lock-in. Wenn es SMB unterstützt, funktioniert es mit Phonas.' },
@@ -804,7 +861,7 @@ const T = {
     'pricing.title': 'Precios',
     'pricing.free.name': 'Gratis', 'pricing.free.price': '$0',
     'pricing.free.note': 'Para siempre',
-    'pricing.free.features': ['Ver fotos y vídeos en calidad nativa', 'Máximo 1 conexión'],
+    'pricing.free.features': [{mark:'✓',text:'Ver fotos y vídeos en calidad nativa'},{mark:'—',text:'Máximo 1 conexión'},{mark:'✗',text:'Copia de seguridad'},{mark:'✗',text:'Vista de mapa'}],
     'pricing.paid.name': 'Completo', 'pricing.paid.price': '$6.99',
     'pricing.paid.note': 'Compra única, sin suscripción',
     'pricing.paid.features': ['Todo lo incluido en Gratis', 'Conexiones ilimitadas', 'Copia de seguridad al NAS', 'Vista de mapa', 'Más en futuras actualizaciones'],
@@ -829,8 +886,11 @@ const T = {
     'faq.items': [
       { q: '¿Qué dispositivos NAS soporta Phonas?', a: 'Phonas se conecta mediante el protocolo SMB estándar y admite cualquier dispositivo con SMB habilitado, incluidos Synology, QNAP, TrueNAS, OpenWrt, carpetas compartidas de Windows, uso compartido de macOS y más.' },
       { q: '¿Qué formatos de foto se admiten?', a: 'Actualmente admitidos: JPEG, HEIC/HIF, PNG, RAW (DNG, ARW), MP4, MOV.' },
-      { q: '¿Cómo me conecto a mi NAS?', a: 'Agrega un servidor en la app e ingresa la dirección de tu servidor SMB, nombre de usuario y contraseña. Asegúrate de que tu dispositivo esté en la misma red local que tu NAS, o que el acceso remoto esté configurado.' },
-      { q: '¿Qué incluye la versión gratuita?', a: 'La versión gratuita permite añadir 1 conexión y explorar todas tus fotos y vídeos gratis para siempre. Con una compra única se desbloquean las conexiones ilimitadas, la copia de seguridad y la vista de mapa.' },
+      { q: '¿Cómo me conecto a mi NAS?', a: 'En Phonas, escanea los dispositivos de la red local y selecciona tu NAS, o ingresa la dirección manualmente. Introduce tu nombre de usuario y contraseña para conectarte.' },
+      { q: '¿Cómo me conecto a mi Mac?', steps: [
+        { text: 'En los Ajustes de macOS, abre Compartir archivos y asegúrate de que el Uso compartido de archivos de Windows esté activado.', img: 'images/macos-file-share.heic', imgLabel: 'Ver ajustes de compartir en macOS' },
+        { text: 'En Phonas, escanea dispositivos en la red local, selecciona tu Mac, ingresa tu nombre de usuario y contraseña para conectarte.', img: 'images/iphone-connect-macos.heic', imgLabel: 'Ver pasos de conexión en iPhone' },
+      ]},
     ],
     'features.items': [
       { title: 'Compatibilidad máxima', desc: 'Conexión directa mediante protocolo SMB. No se necesita software de servidor, sin dependencia de proveedores. Si admite SMB, funciona con Phonas.' },
@@ -848,7 +908,7 @@ const T = {
     'pricing.title': 'Цены',
     'pricing.free.name': 'Бесплатно', 'pricing.free.price': '₽0',
     'pricing.free.note': 'Навсегда',
-    'pricing.free.features': ['Просмотр фото и видео в нативном качестве', 'До 1 подключения'],
+    'pricing.free.features': [{mark:'✓',text:'Просмотр фото и видео в нативном качестве'},{mark:'—',text:'До 1 подключения'},{mark:'✗',text:'Резервное копирование'},{mark:'✗',text:'Просмотр карты'}],
     'pricing.paid.name': 'Полная версия', 'pricing.paid.price': '₽599',
     'pricing.paid.note': 'Разовая покупка, без подписки',
     'pricing.paid.features': ['Всё из бесплатной версии', 'Неограниченные подключения', 'Резервное копирование на NAS', 'Просмотр карты', 'Больше в будущих обновлениях'],
@@ -873,8 +933,11 @@ const T = {
     'faq.items': [
       { q: 'Какие устройства NAS поддерживает Phonas?', a: 'Phonas подключается по стандартному протоколу SMB и поддерживает любые устройства с включённым SMB, включая Synology, QNAP, TrueNAS, OpenWrt, общие папки Windows, общий доступ macOS и другие.' },
       { q: 'Какие форматы фото поддерживаются?', a: 'В настоящее время поддерживаются: JPEG, HEIC/HIF, PNG, RAW (DNG, ARW), MP4, MOV.' },
-      { q: 'Как подключиться к NAS?', a: 'Добавьте сервер в приложении и введите адрес SMB-сервера, имя пользователя и пароль. Убедитесь, что ваше устройство находится в той же локальной сети, что и NAS, или настроен удалённый доступ.' },
-      { q: 'Что доступно бесплатно?', a: 'Бесплатная версия позволяет добавить 1 подключение и просматривать все фото и видео бесплатно навсегда. После покупки открываются неограниченные подключения, резервное копирование и просмотр карты.' },
+      { q: 'Как подключиться к NAS?', a: 'В Phonas выполните поиск устройств в локальной сети и выберите NAS, или введите адрес вручную. Введите имя пользователя и пароль для подключения.' },
+      { q: 'Как подключиться к Mac?', steps: [
+        { text: 'В настройках macOS откройте Общий доступ к файлам и убедитесь, что включён Общий доступ к файлам Windows.', img: 'images/macos-file-share.heic', imgLabel: 'Посмотреть настройки общего доступа macOS' },
+        { text: 'В Phonas выполните поиск устройств в локальной сети, выберите Mac, введите имя пользователя и пароль для подключения.', img: 'images/iphone-connect-macos.heic', imgLabel: 'Посмотреть шаги подключения на iPhone' },
+      ]},
     ],
     'features.items': [
       { title: 'Максимальная совместимость', desc: 'Прямое подключение по протоколу SMB. Серверное программное обеспечение не требуется, нет привязки к поставщику. Если поддерживается SMB — работает с Phonas.' },
@@ -892,7 +955,7 @@ const T = {
     'pricing.title': 'الأسعار',
     'pricing.free.name': 'مجاني', 'pricing.free.price': '$0',
     'pricing.free.note': 'للأبد',
-    'pricing.free.features': ['تصفح الصور والفيديو بجودة أصلية', 'اتصال واحد كحد أقصى'],
+    'pricing.free.features': [{mark:'✓',text:'تصفح الصور والفيديو بجودة أصلية'},{mark:'—',text:'اتصال واحد كحد أقصى'},{mark:'✗',text:'نسخ احتياطي للصور'},{mark:'✗',text:'عرض الخريطة'}],
     'pricing.paid.name': 'كامل', 'pricing.paid.price': '$6.99',
     'pricing.paid.note': 'شراء لمرة واحدة، بدون اشتراك',
     'pricing.paid.features': ['كل ما في النسخة المجانية', 'اتصالات غير محدودة', 'نسخ احتياطي للصور إلى NAS', 'عرض الخريطة', 'المزيد في التحديثات القادمة'],
@@ -917,8 +980,11 @@ const T = {
     'faq.items': [
       { q: 'ما أجهزة NAS التي يدعمها Phonas؟', a: 'يتصل Phonas عبر بروتوكول SMB القياسي ويدعم أي جهاز يدعم SMB، بما في ذلك Synology وQNAP وTrueNAS وOpenWrt والمجلدات المشتركة على Windows ومشاركة macOS وغيرها.' },
       { q: 'ما صيغ الصور المدعومة؟', a: 'المدعوم حالياً: JPEG وHEIC/HIF وPNG وRAW (DNG وARW) وMP4 وMOV.' },
-      { q: 'كيف أتصل بـ NAS الخاص بي؟', a: 'أضف خادماً في التطبيق وأدخل عنوان خادم SMB واسم المستخدم وكلمة المرور. تأكد من أن جهازك على نفس الشبكة المحلية مع NAS أو أن الوصول عن بُعد مُهيَّأ.' },
-      { q: 'ما الذي يتضمنه الإصدار المجاني؟', a: 'يتيح الإصدار المجاني إضافة اتصال واحد وتصفح جميع الصور والفيديوهات مجاناً للأبد. بعد الشراء تصبح الاتصالات غير محدودة والنسخ الاحتياطي وعرض الخريطة متاحة.' },
+      { q: 'كيف أتصل بـ NAS الخاص بي؟', a: 'في Phonas، ابحث عن الأجهزة في الشبكة المحلية واختر NAS، أو أدخل العنوان يدوياً. ثم أدخل اسم المستخدم وكلمة المرور للاتصال.' },
+      { q: 'كيف أتصل بـ Mac الخاص بي؟', steps: [
+        { text: 'في إعدادات macOS، افتح مشاركة الملفات وتأكد من تفعيل مشاركة ملفات Windows.', img: 'images/macos-file-share.heic', imgLabel: 'عرض إعدادات مشاركة macOS' },
+        { text: 'في Phonas، ابحث عن الأجهزة في الشبكة المحلية، واختر Mac، ثم أدخل اسم المستخدم وكلمة المرور للاتصال.', img: 'images/iphone-connect-macos.heic', imgLabel: 'عرض خطوات الاتصال على iPhone' },
+      ]},
     ],
     'features.items': [
       { title: 'أقصى توافقية', desc: 'اتصال مباشر عبر بروتوكول SMB. لا حاجة لبرامج خادم، لا تبعية لأي علامة تجارية. إذا كان يدعم SMB، فهو يعمل مع Phonas.' },
@@ -935,7 +1001,7 @@ function detectLang() {
   const saved = localStorage.getItem('phonas-lang');
   if (saved && T[saved]) return saved;
   const nav = navigator.language || '';
-  if (nav === 'zh-TW' || nav === 'zh-HK' || nav === 'zh-Hant') return 'zh-Hant';
+  if (nav === 'zh-TW' || nav === 'zh-HK' || nav.startsWith('zh-Hant')) return 'zh-Hant';
   if (nav.startsWith('zh')) return 'zh-Hans';
   if (nav.startsWith('ja')) return 'ja';
   if (nav.startsWith('ko')) return 'ko';
@@ -952,11 +1018,7 @@ let currentLang = detectLang();
 function applyLang(lang) {
   currentLang = lang;
   const t = Object.assign({}, T[lang]);
-  // zh-Hant: override price by browser locale (HK vs TW)
-  if (lang === 'zh-Hant') {
-    const locale = navigator.language || '';
-    if (locale === 'zh-HK') { t['pricing.paid.price'] = 'HK$58'; t['pricing.free.price'] = 'HK$0'; }
-  }
+
   document.documentElement.lang = lang;
   document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
   document.getElementById('langSelect').value = lang;
@@ -1012,8 +1074,8 @@ function renderPlanFeatures(t) {
     const freeEl = document.getElementById('freePlanFeatures');
     const paidEl = document.getElementById('paidPlanFeatures');
     if (freeEl && t['pricing.free.features']) {
-        freeEl.innerHTML = t['pricing.free.features'].map((f, i) =>
-            `<li><span class="check">${i === 0 ? '✓' : '—'}</span>${f}</li>`
+        freeEl.innerHTML = t['pricing.free.features'].map(f =>
+            `<li><span class="check" style="color:${f.mark==='✓'?'#4CAF50':f.mark==='✗'?'#e05c5c':'var(--text-secondary)'}">${f.mark}</span>${f.text}</li>`
         ).join('');
     }
     if (paidEl && t['pricing.paid.features']) {
@@ -1046,14 +1108,42 @@ function renderPlanFeatures(t) {
     }
 }
 
+function openLightbox(src, alt) {
+    const lb = document.getElementById('lightbox');
+    const img = document.getElementById('lightboxImg');
+    img.src = src;
+    img.alt = alt;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox(e) {
+    if (e && e.target !== e.currentTarget && !e.target.classList.contains('lightbox-close')) return;
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox({ target: document.getElementById('lightbox'), currentTarget: document.getElementById('lightbox') }); });
+
 function renderFaq() {
     const items = T[currentLang]['faq.items'];
-    document.getElementById('faqList').innerHTML = items.map(item => `
-        <div class="faq-item">
-            <h3>${item.q}</h3>
-            <p>${item.a}</p>
-        </div>
-    `).join('');
+    document.getElementById('faqList').innerHTML = items.map(item => {
+        if (item.steps) {
+            const stepsHtml = item.steps.map((step, i) => `
+                <li class="faq-step-clickable" data-src="${step.img}" data-alt="${step.imgLabel}" onclick="openLightbox(this.dataset.src, this.dataset.alt)">${step.text}</li>
+            `).join('');
+            return `
+                <div class="faq-item">
+                    <h3>${item.q}</h3>
+                    <div class="faq-steps"><ol>${stepsHtml}</ol></div>
+                </div>`;
+        }
+        return `
+            <div class="faq-item">
+                <h3>${item.q}</h3>
+                <p>${item.a}</p>
+            </div>`;
+    }).join('');
 }
 
 function switchScreen(newSrc) {
