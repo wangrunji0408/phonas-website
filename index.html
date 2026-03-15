@@ -238,17 +238,93 @@
             padding: 80px 24px;
             text-align: center;
         }
-        .pricing > h2 { font-size: 36px; font-weight: 700; margin-bottom: 16px; }
-        .pricing .subtitle { color: var(--text-secondary); font-size: 18px; margin-bottom: 48px; }
-        .price-card {
-            max-width: 420px; margin: 0 auto;
+        .pricing > h2 { font-size: 36px; font-weight: 700; margin-bottom: 48px; }
+        .pricing-table {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        .plan-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 24px; padding: 48px;
+            border-radius: 24px;
+            padding: 36px 32px;
+            text-align: left;
         }
-        .price-card .trial { font-size: 16px; color: var(--accent); font-weight: 500; margin-bottom: 24px; }
-        .price-card .price { font-size: 48px; font-weight: 800; margin-bottom: 8px; }
-        .price-card .price-note { color: var(--text-secondary); font-size: 14px; margin-bottom: 32px; }
+        .plan-card.paid {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 1px rgba(74,144,217,0.3), 0 8px 32px rgba(74,144,217,0.15);
+        }
+        .plan-name {
+            font-size: 13px; font-weight: 600; letter-spacing: 0.08em;
+            text-transform: uppercase; color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+        .plan-card.paid .plan-name { color: var(--accent); }
+        .plan-price {
+            font-size: 42px; font-weight: 800;
+            margin-bottom: 4px; line-height: 1;
+        }
+        .plan-price-note {
+            font-size: 13px; color: var(--text-secondary);
+            margin-bottom: 28px;
+        }
+        .plan-features {
+            list-style: none;
+            display: flex; flex-direction: column; gap: 12px;
+        }
+        .plan-features li {
+            display: flex; align-items: flex-start; gap: 10px;
+            font-size: 15px; color: var(--text-secondary); line-height: 1.4;
+        }
+        .plan-features li .check {
+            flex-shrink: 0; margin-top: 1px;
+            color: #4CAF50; font-size: 15px; min-width: 15px;
+        }
+        .plan-card:not(.paid) .plan-features li:not(:first-child) .check {
+            color: var(--text-secondary);
+        }
+        .plan-card.paid .plan-features li { color: var(--text); }
+        @media (max-width: 600px) {
+            .pricing-table { grid-template-columns: 1fr; }
+        }
+
+        /* Comparison table */
+        .comparison {
+            max-width: 860px; margin: 0 auto;
+        }
+        .comparison table {
+            width: 100%; border-collapse: collapse;
+            font-size: 14px; text-align: left;
+        }
+        .comparison th {
+            padding: 12px 16px; font-size: 13px; font-weight: 600;
+            letter-spacing: 0.05em; text-transform: uppercase;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--card-border);
+        }
+        .comparison th:first-child { width: 0; }
+        .comparison th.col-sp { color: var(--text-secondary); }
+        .comparison th.col-p  { color: var(--accent); }
+        .comparison td {
+            padding: 16px; vertical-align: top; line-height: 1.5;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .comparison td:first-child {
+            font-size: 11px; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.06em; color: var(--text-secondary);
+            white-space: nowrap; padding-right: 8px;
+        }
+        .comparison td.col-sp { color: var(--text-secondary); }
+        .comparison td.col-p  { color: var(--text); }
+        .comparison td .badge-bad  { color: #e05c5c; font-weight: 500; }
+        .comparison td .badge-good { color: #4CAF50; font-weight: 500; }
+        @media (max-width: 600px) {
+            .comparison td:first-child { display: none; }
+            .comparison th:first-child { display: none; }
+        }
 
         /* FAQ / Support */
         .support {
@@ -284,7 +360,7 @@
             .hero .tagline { font-size: 18px; }
             .features-layout { grid-template-columns: 1fr; }
             .phone-mockup { margin: 0 auto; }
-            .price-card .price { font-size: 36px; }
+            .plan-price { font-size: 32px; }
         }
     </style>
 </head>
@@ -360,17 +436,32 @@
     </div>
 </section>
 
+<!-- Comparison -->
+<section class="pricing" id="compare">
+    <h2 data-i18n="pricing.compare.title"></h2>
+    <div class="comparison">
+        <table id="comparisonTable"></table>
+    </div>
+</section>
+
 <!-- Pricing -->
 <section class="pricing" id="pricing">
     <h2 data-i18n="pricing.title"></h2>
-    <p class="subtitle" data-i18n="pricing.subtitle"></p>
-    <div class="price-card">
-        <div class="trial" data-i18n="pricing.trial"></div>
-        <div class="price" data-i18n="pricing.price"></div>
-        <div class="price-note" data-i18n="pricing.note"></div>
-        <a class="cta-btn" href="https://apps.apple.com/us/app/phonas/id6757116175" target="_blank" style="width:100%;justify-content:center;">
-            <span data-i18n="pricing.cta"></span>
-        </a>
+
+    <!-- Plan cards -->
+    <div class="pricing-table">
+        <div class="plan-card">
+            <div class="plan-name" data-i18n="pricing.free.name"></div>
+            <div class="plan-price" data-i18n="pricing.free.price"></div>
+            <div class="plan-price-note" data-i18n="pricing.free.note"></div>
+            <ul class="plan-features" id="freePlanFeatures"></ul>
+        </div>
+        <div class="plan-card paid">
+            <div class="plan-name" data-i18n="pricing.paid.name"></div>
+            <div class="plan-price" data-i18n="pricing.paid.price"></div>
+            <div class="plan-price-note" data-i18n="pricing.paid.note"></div>
+            <ul class="plan-features" id="paidPlanFeatures"></ul>
+        </div>
     </div>
 </section>
 
@@ -402,15 +493,36 @@ const T = {
     'hero.tagline': 'Your NAS Photos, Right at Your Fingertips',
     'hero.cta': 'Download on App Store',
     'features.title': 'Why Phonas',
-    'pricing.title': 'Simple Pricing', 'pricing.subtitle': 'Buy once, use forever',
-    'pricing.trial': '3-day free trial', 'pricing.price': '$6.99',
-    'pricing.note': 'One-time purchase, no subscription', 'pricing.cta': 'Get on App Store',
+    'pricing.title': 'Pricing',
+    'pricing.free.name': 'Free', 'pricing.free.price': '$0',
+    'pricing.free.note': 'Forever',
+    'pricing.free.features': ['Browse photos & videos in native quality', 'Up to 1 connection'],
+    'pricing.paid.name': 'Full', 'pricing.paid.price': '$6.99',
+    'pricing.paid.note': 'One-time purchase, no subscription',
+    'pricing.paid.features': ['Everything in Free', 'Unlimited connections', 'Photo backup to NAS', 'Map view', 'More in future updates'],
+    'pricing.compare.title': 'Compare Synology Photos',
+    'pricing.compare.sp': 'Synology Photos',
+    'pricing.compare.p': 'Phonas',
+    'pricing.compare.rows': [
+      { label: 'Architecture',
+        sp: 'Requires server-side app. Only works with Synology.',
+        p:  'No server software needed. Works with any SMB-enabled device.' },
+      { label: 'Thumbnails',
+        sp: 'Server generates a thumbnail for every photo, consuming extra storage. Transcoded previews lose quality.',
+        p:  'Reads embedded thumbnails directly from files — no extra storage. Displays photos in native quality with full HDR.' },
+      { label: 'HEIC',
+        sp: 'Newer versions no longer generate thumbnails for HEIC files.',
+        p:  'Fast HEIC thumbnail extraction, natively supported.' },
+      { label: 'Backup speed',
+        sp: 'Slow uploads — only 2 photos at a time.',
+        p:  'High-speed backup — up to 20 concurrent uploads.' },
+    ],
     'faq.title': 'FAQ', 'faq.contact': 'Have issues or suggestions? Contact',
     'faq.items': [
       { q: 'What NAS devices does Phonas support?', a: 'Phonas connects via the standard SMB protocol and supports any device with SMB enabled, including Synology, QNAP, TrueNAS, OpenWrt, Windows shared folders, macOS sharing, and more.' },
       { q: 'What photo formats are supported?', a: 'Currently supported: JPEG, HEIC/HIF, PNG, RAW (DNG, ARW), MP4, MOV.' },
       { q: 'How do I connect to my NAS?', a: 'Add a server in the app and enter your SMB server address, username, and password. Make sure your device is on the same local network as your NAS, or that remote access is configured.' },
-      { q: 'What happens after the free trial?', a: 'After the 3-day free trial, you will only be able to access the local photo library if you don\'t purchase.' },
+      { q: 'What features are free?', a: 'You can add 1 connection and browse all your photos and videos for free, forever. Purchase once to unlock unlimited connections, photo backup, and map view.' },
     ],
     'features.items': [
       { title: 'Maximum Compatibility', desc: 'Connect directly via SMB protocol. No server software needed, no vendor lock-in. If it supports SMB, it works with Phonas.' },
@@ -425,15 +537,36 @@ const T = {
     'hero.tagline': 'NAS 上的照片，触手可及',
     'hero.cta': 'App Store 下载',
     'features.title': '为什么选择 Phonas',
-    'pricing.title': '简单定价', 'pricing.subtitle': '一次购买，永久使用',
-    'pricing.trial': '免费试用 3 天', 'pricing.price': '¥48',
-    'pricing.note': '一次性买断，无订阅', 'pricing.cta': '前往 App Store',
+    'pricing.title': '价格',
+    'pricing.free.name': '免费版', 'pricing.free.price': '¥0',
+    'pricing.free.note': '永久免费',
+    'pricing.free.features': ['以原生画质浏览照片和视频', '最多 1 个连接'],
+    'pricing.paid.name': '完整版', 'pricing.paid.price': '¥48',
+    'pricing.paid.note': '一次性买断，无订阅',
+    'pricing.paid.features': ['免费版全部功能', '无限连接数', '备份照片到 NAS', '地图查看', '未来更多功能'],
+    'pricing.compare.title': '对比 Synology Photos',
+    'pricing.compare.sp': 'Synology Photos',
+    'pricing.compare.p': 'Phonas',
+    'pricing.compare.rows': [
+      { label: '架构',
+        sp: '需要安装服务端应用，仅支持群晖设备。',
+        p:  '无需服务端，支持任何开启 SMB 的设备。' },
+      { label: '缩略图',
+        sp: '服务端需为每张照片生成缩略图，额外占用存储空间，转码后画质有损。',
+        p:  '直接从文件中读取内嵌缩略图，无需额外空间，以原生画质显示，完整保留 HDR 效果。' },
+      { label: 'HEIC',
+        sp: '新版本不再为 HEIC 文件生成缩略图。',
+        p:  '原生支持 HEIC，快速获取缩略图。' },
+      { label: '备份速度',
+        sp: '上传缓慢，同时只能上传 2 张照片。',
+        p:  '高速备份，支持最多 20 张照片同时上传。' },
+    ],
     'faq.title': '常见问题', 'faq.contact': '遇到问题或有建议？请联系',
     'faq.items': [
       { q: 'Phonas 支持哪些 NAS 设备？', a: 'Phonas 通过标准 SMB 协议连接，支持所有启用了 SMB 服务的设备，包括但不限于 Synology、QNAP、TrueNAS、OpenWrt、Windows 共享文件夹、macOS 共享等。' },
       { q: '支持哪些照片格式？', a: '当前支持 JPEG、HEIC/HIF、PNG、RAW（DNG、ARW）、MP4、MOV。' },
       { q: '如何连接到我的 NAS？', a: '在应用中添加服务器，输入 SMB 服务器地址、用户名和密码即可。确保您的设备与 NAS 在同一局域网内，或已配置远程访问。' },
-      { q: '免费试用后会怎样？', a: '免费试用 3 天后，如果不购买，将只能访问本地相册。' },
+      { q: '免费版有哪些功能？', a: '免费版可添加 1 个连接，永久免费浏览所有照片和视频。购买后可解锁无限连接、照片备份和地图功能。' },
     ],
     'features.items': [
       { title: '最大兼容性', desc: '通过 SMB 协议直接连接。无需安装任何服务端软件，不依赖特定 NAS 品牌。只要支持 SMB，就能用 Phonas。' },
@@ -448,15 +581,36 @@ const T = {
     'hero.tagline': 'NAS 上的照片，觸手可及',
     'hero.cta': 'App Store 下載',
     'features.title': '為什麼選擇 Phonas',
-    'pricing.title': '簡單定價', 'pricing.subtitle': '一次購買，永久使用',
-    'pricing.trial': '免費試用 3 天', 'pricing.price': 'NT$220',
-    'pricing.note': '一次性買斷，無訂閱', 'pricing.cta': '前往 App Store',
+    'pricing.title': '價格',
+    'pricing.free.name': '免費版', 'pricing.free.price': 'NT$0',
+    'pricing.free.note': '永久免費',
+    'pricing.free.features': ['以原生畫質瀏覽照片和影片', '最多 1 個連線'],
+    'pricing.paid.name': '完整版', 'pricing.paid.price': 'NT$220',
+    'pricing.paid.note': '一次性買斷，無訂閱',
+    'pricing.paid.features': ['免費版全部功能', '無限連線數', '備份照片到 NAS', '地圖檢視', '未來更多功能'],
+    'pricing.compare.title': '對比 Synology Photos',
+    'pricing.compare.sp': 'Synology Photos',
+    'pricing.compare.p': 'Phonas',
+    'pricing.compare.rows': [
+      { label: '架構',
+        sp: '需要安裝伺服器端應用，僅支援群暉裝置。',
+        p:  '無需伺服器端，支援任何開啟 SMB 的裝置。' },
+      { label: '縮圖',
+        sp: '伺服器需為每張照片產生縮圖，額外佔用儲存空間，轉碼後畫質有損。',
+        p:  '直接從檔案讀取內嵌縮圖，無需額外空間，以原生畫質顯示，完整保留 HDR 效果。' },
+      { label: 'HEIC',
+        sp: '新版本不再為 HEIC 檔案產生縮圖。',
+        p:  '原生支援 HEIC，快速取得縮圖。' },
+      { label: '備份速度',
+        sp: '上傳緩慢，同時只能上傳 2 張照片。',
+        p:  '高速備份，最多支援 20 張照片同時上傳。' },
+    ],
     'faq.title': '常見問題', 'faq.contact': '遇到問題或有建議？請聯絡',
     'faq.items': [
       { q: 'Phonas 支援哪些 NAS 裝置？', a: 'Phonas 透過標準 SMB 協議連線，支援所有啟用了 SMB 服務的裝置，包括但不限於 Synology、QNAP、TrueNAS、OpenWrt、Windows 共用資料夾、macOS 共享等。' },
       { q: '支援哪些相片格式？', a: '目前支援 JPEG、HEIC/HIF、PNG、RAW（DNG、ARW）、MP4、MOV。' },
       { q: '如何連線到我的 NAS？', a: '在應用程式中新增伺服器，輸入 SMB 伺服器位址、使用者名稱和密碼即可。請確保您的裝置與 NAS 在同一區域網路內，或已設定遠端存取。' },
-      { q: '免費試用後會怎樣？', a: '免費試用 3 天後，若未購買，將只能存取本機相簿。' },
+      { q: '免費版有哪些功能？', a: '免費版可新增 1 個連線，永久免費瀏覽所有照片和影片。購買後可解鎖無限連線、照片備份和地圖功能。' },
     ],
     'features.items': [
       { title: '最大相容性', desc: '透過 SMB 協議直接連線。無需安裝任何伺服器端軟體，不依賴特定 NAS 品牌。只要支援 SMB，就能使用 Phonas。' },
@@ -471,15 +625,36 @@ const T = {
     'hero.tagline': 'NASの写真を、いつでも手元に',
     'hero.cta': 'App Storeでダウンロード',
     'features.title': 'Phonasを選ぶ理由',
-    'pricing.title': 'シンプルな料金', 'pricing.subtitle': '一度購入すれば永久に使える',
-    'pricing.trial': '3日間無料トライアル', 'pricing.price': '¥1,100',
-    'pricing.note': '買い切り、サブスクなし', 'pricing.cta': 'App Storeで入手',
+    'pricing.title': '料金',
+    'pricing.free.name': '無料', 'pricing.free.price': '¥0',
+    'pricing.free.note': '永久無料',
+    'pricing.free.features': ['写真・動画をネイティブ画質で閲覧', '接続は1つまで'],
+    'pricing.paid.name': 'フル版', 'pricing.paid.price': '¥1,100',
+    'pricing.paid.note': '買い切り、サブスクなし',
+    'pricing.paid.features': ['無料版のすべての機能', '無制限の接続', 'NASへの写真バックアップ', 'マップ表示', '今後さらに機能追加予定'],
+    'pricing.compare.title': 'Synology Photos との比較',
+    'pricing.compare.sp': 'Synology Photos',
+    'pricing.compare.p': 'Phonas',
+    'pricing.compare.rows': [
+      { label: 'アーキテクチャ',
+        sp: 'サーバーアプリのインストールが必要。Synologyデバイスのみ対応。',
+        p:  'サーバーソフト不要。SMB対応のあらゆるデバイスで動作。' },
+      { label: 'サムネイル',
+        sp: 'サーバーが写真ごとにサムネイルを生成し、追加ストレージを消費。変換後の画質は劣化。',
+        p:  'ファイルに埋め込まれたサムネイルを直接読み取り。追加スペース不要。HDRを完全保持したネイティブ画質で表示。' },
+      { label: 'HEIC',
+        sp: '新バージョンでHEICファイルのサムネイル生成が非対応に。',
+        p:  'HEICをネイティブサポート。高速サムネイル取得。' },
+      { label: 'バックアップ速度',
+        sp: '同時アップロードは2枚のみで低速。',
+        p:  '最大20枚同時アップロードの高速バックアップ。' },
+    ],
     'faq.title': 'よくある質問', 'faq.contact': 'ご質問・ご意見はこちら',
     'faq.items': [
       { q: 'Phonasはどのようなデバイスをサポートしていますか？', a: 'PhonasはSMBプロトコルで接続し、Synology、QNAP、TrueNAS、OpenWrt、Windowsファイル共有、macOS共有など、SMBが有効なあらゆるデバイスをサポートします。' },
       { q: 'サポートされている写真フォーマットは？', a: 'JPEG、HEIC/HIF、PNG、RAW（DNG、ARW）、MP4、MOVに対応しています。' },
       { q: 'NASへの接続方法は？', a: 'アプリでサーバーを追加し、SMBサーバーのアドレス、ユーザー名、パスワードを入力してください。デバイスがNASと同じローカルネットワーク上にあるか、リモートアクセスが設定されていることを確認してください。' },
-      { q: '無料トライアル終了後はどうなりますか？', a: '3日間の無料トライアル終了後、購入しない場合はローカルフォトライブラリにのみアクセスできます。' },
+      { q: '無料版でできることは？', a: '無料版では1つの接続を追加して写真・動画を永久に無料で閲覧できます。購入すると無制限の接続、写真のバックアップ、マップ表示が使えるようになります。' },
     ],
     'features.items': [
       { title: '最大の互換性', desc: 'SMBプロトコルで直接接続。サーバーソフトウェアは不要で、特定のNASブランドに依存しません。SMBをサポートしていれば動作します。' },
@@ -494,15 +669,36 @@ const T = {
     'hero.tagline': 'NAS의 사진을, 언제 어디서나',
     'hero.cta': 'App Store에서 다운로드',
     'features.title': 'Phonas를 선택하는 이유',
-    'pricing.title': '간단한 가격', 'pricing.subtitle': '한 번 구매로 영구 사용',
-    'pricing.trial': '3일 무료 체험', 'pricing.price': '₩9,900',
-    'pricing.note': '일회성 구매, 구독 없음', 'pricing.cta': 'App Store에서 받기',
+    'pricing.title': '가격',
+    'pricing.free.name': '무료', 'pricing.free.price': '₩0',
+    'pricing.free.note': '영구 무료',
+    'pricing.free.features': ['원본 화질로 사진·동영상 탐색', '최대 1개 연결'],
+    'pricing.paid.name': '전체 버전', 'pricing.paid.price': '₩9,900',
+    'pricing.paid.note': '일회성 구매, 구독 없음',
+    'pricing.paid.features': ['무료 버전의 모든 기능', '무제한 연결', 'NAS로 사진 백업', '지도 보기', '향후 더 많은 기능 추가 예정'],
+    'pricing.compare.title': 'Synology Photos 비교',
+    'pricing.compare.sp': 'Synology Photos',
+    'pricing.compare.p': 'Phonas',
+    'pricing.compare.rows': [
+      { label: '아키텍처',
+        sp: '서버 앱 설치 필요. Synology 기기에서만 작동.',
+        p:  '서버 소프트웨어 불필요. SMB를 지원하는 모든 기기에서 작동.' },
+      { label: '썸네일',
+        sp: '서버가 모든 사진에 대해 썸네일을 생성해 추가 저장 공간 소모. 변환된 미리보기는 화질 손실.',
+        p:  '파일에 내장된 썸네일을 직접 읽어 추가 공간 불필요. HDR을 완전히 보존한 원본 화질로 표시.' },
+      { label: 'HEIC',
+        sp: '최신 버전에서 HEIC 파일 썸네일 생성 미지원.',
+        p:  'HEIC 네이티브 지원, 빠른 썸네일 추출.' },
+      { label: '백업 속도',
+        sp: '동시 업로드 2장으로 속도 느림.',
+        p:  '최대 20장 동시 업로드의 고속 백업.' },
+    ],
     'faq.title': '자주 묻는 질문', 'faq.contact': '문의사항이나 제안이 있으시면 연락하세요',
     'faq.items': [
       { q: 'Phonas는 어떤 NAS 기기를 지원하나요?', a: 'Phonas는 표준 SMB 프로토콜로 연결되며, Synology, QNAP, TrueNAS, OpenWrt, Windows 공유 폴더, macOS 공유 등 SMB가 활성화된 모든 기기를 지원합니다.' },
       { q: '어떤 사진 형식이 지원되나요?', a: 'JPEG, HEIC/HIF, PNG, RAW(DNG, ARW), MP4, MOV를 지원합니다.' },
       { q: 'NAS에 연결하는 방법은?', a: '앱에서 서버를 추가하고 SMB 서버 주소, 사용자 이름, 비밀번호를 입력하세요. 기기가 NAS와 같은 로컬 네트워크에 있거나 원격 액세스가 구성되어 있는지 확인하세요.' },
-      { q: '무료 체험 후 어떻게 되나요?', a: '3일 무료 체험 후 구매하지 않으면 로컬 사진 보관함에만 접근할 수 있습니다.' },
+      { q: '무료 버전에서 할 수 있는 것은?', a: '무료 버전에서는 연결 1개를 추가하고 모든 사진과 동영상을 영구 무료로 탐색할 수 있습니다. 구매하면 무제한 연결, 사진 백업, 지도 보기를 사용할 수 있습니다.' },
     ],
     'features.items': [
       { title: '최대 호환성', desc: 'SMB 프로토콜로 직접 연결합니다. 서버 소프트웨어가 필요 없고 특정 NAS 브랜드에 의존하지 않습니다. SMB를 지원하면 Phonas와 함께 작동합니다.' },
@@ -517,15 +713,36 @@ const T = {
     'hero.tagline': 'Vos photos NAS, à portée de main',
     'hero.cta': 'Télécharger sur l\'App Store',
     'features.title': 'Pourquoi Phonas',
-    'pricing.title': 'Tarif simple', 'pricing.subtitle': 'Achetez une fois, utilisez pour toujours',
-    'pricing.trial': 'Essai gratuit 3 jours', 'pricing.price': '€7,99',
-    'pricing.note': 'Achat unique, sans abonnement', 'pricing.cta': 'Obtenir sur l\'App Store',
+    'pricing.title': 'Prix',
+    'pricing.free.name': 'Gratuit', 'pricing.free.price': '0 €',
+    'pricing.free.note': 'Pour toujours',
+    'pricing.free.features': ['Parcourir photos & vidéos en qualité native', '1 connexion maximum'],
+    'pricing.paid.name': 'Complet', 'pricing.paid.price': '7,99 €',
+    'pricing.paid.note': 'Achat unique, sans abonnement',
+    'pricing.paid.features': ['Tout ce qui est inclus dans Gratuit', 'Connexions illimitées', 'Sauvegarde photos vers NAS', 'Vue carte', 'Plus à venir'],
+    'pricing.compare.title': 'Comparer Synology Photos',
+    'pricing.compare.sp': 'Synology Photos',
+    'pricing.compare.p': 'Phonas',
+    'pricing.compare.rows': [
+      { label: 'Architecture',
+        sp: 'Nécessite une application serveur. Fonctionne uniquement avec les NAS Synology.',
+        p:  'Aucun logiciel serveur requis. Compatible avec tout appareil prenant en charge SMB.' },
+      { label: 'Miniatures',
+        sp: 'Le serveur génère une miniature pour chaque photo, consommant de l\'espace supplémentaire. Les aperçus transcodés perdent en qualité.',
+        p:  'Lit les miniatures intégrées directement dans les fichiers — aucun espace supplémentaire. Affichage en qualité native avec HDR complet.' },
+      { label: 'HEIC',
+        sp: 'Les nouvelles versions ne génèrent plus de miniatures pour les fichiers HEIC.',
+        p:  'Support natif HEIC, extraction rapide des miniatures.' },
+      { label: 'Vitesse de sauvegarde',
+        sp: 'Uploads lents — seulement 2 photos à la fois.',
+        p:  'Sauvegarde rapide — jusqu\'à 20 uploads simultanés.' },
+    ],
     'faq.title': 'FAQ', 'faq.contact': 'Des questions ou suggestions ? Contactez',
     'faq.items': [
       { q: 'Quels appareils NAS Phonas supporte-t-il ?', a: 'Phonas se connecte via le protocole SMB standard et prend en charge tout appareil avec SMB activé, notamment Synology, QNAP, TrueNAS, OpenWrt, les dossiers partagés Windows, le partage macOS, et plus encore.' },
       { q: 'Quels formats photo sont supportés ?', a: 'Actuellement supportés : JPEG, HEIC/HIF, PNG, RAW (DNG, ARW), MP4, MOV.' },
       { q: 'Comment me connecter à mon NAS ?', a: 'Ajoutez un serveur dans l\'application et entrez l\'adresse de votre serveur SMB, le nom d\'utilisateur et le mot de passe. Assurez-vous que votre appareil est sur le même réseau local que votre NAS, ou que l\'accès à distance est configuré.' },
-      { q: 'Que se passe-t-il après l\'essai gratuit ?', a: 'Après l\'essai gratuit de 3 jours, vous ne pourrez accéder qu\'à la bibliothèque photo locale si vous n\'achetez pas.' },
+      { q: 'Que peut-on faire gratuitement ?', a: 'La version gratuite permet d\'ajouter 1 connexion et de parcourir toutes vos photos et vidéos gratuitement et pour toujours. Un achat unique débloque les connexions illimitées, la sauvegarde des photos et la vue carte.' },
     ],
     'features.items': [
       { title: 'Compatibilité maximale', desc: 'Connexion directe via le protocole SMB. Aucun logiciel serveur requis, aucun verrouillage propriétaire. S\'il supporte SMB, il fonctionne avec Phonas.' },
@@ -540,15 +757,36 @@ const T = {
     'hero.tagline': 'Ihre NAS-Fotos, immer griffbereit',
     'hero.cta': 'Im App Store laden',
     'features.title': 'Warum Phonas',
-    'pricing.title': 'Einfache Preise', 'pricing.subtitle': 'Einmal kaufen, für immer nutzen',
-    'pricing.trial': '3 Tage kostenlos testen', 'pricing.price': '€7,99',
-    'pricing.note': 'Einmalkauf, kein Abonnement', 'pricing.cta': 'Im App Store holen',
+    'pricing.title': 'Preise',
+    'pricing.free.name': 'Kostenlos', 'pricing.free.price': '0 €',
+    'pricing.free.note': 'Für immer',
+    'pricing.free.features': ['Fotos & Videos in nativer Qualität ansehen', 'Maximal 1 Verbindung'],
+    'pricing.paid.name': 'Vollversion', 'pricing.paid.price': '7,99 €',
+    'pricing.paid.note': 'Einmalkauf, kein Abonnement',
+    'pricing.paid.features': ['Alles aus der Gratisversion', 'Unbegrenzte Verbindungen', 'Foto-Backup zum NAS', 'Kartenansicht', 'Mehr in zukünftigen Updates'],
+    'pricing.compare.title': 'Synology Photos im Vergleich',
+    'pricing.compare.sp': 'Synology Photos',
+    'pricing.compare.p': 'Phonas',
+    'pricing.compare.rows': [
+      { label: 'Architektur',
+        sp: 'Erfordert Server-App. Funktioniert nur mit Synology-Geräten.',
+        p:  'Keine Serversoftware nötig. Funktioniert mit jedem SMB-fähigen Gerät.' },
+      { label: 'Vorschaubilder',
+        sp: 'Der Server generiert für jedes Foto ein Vorschaubild und verbraucht zusätzlichen Speicher. Qualitätsverlust durch Transcodierung.',
+        p:  'Liest eingebettete Miniaturbilder direkt aus den Dateien — kein Zusatzspeicher. Anzeige in nativer Qualität mit vollem HDR.' },
+      { label: 'HEIC',
+        sp: 'Neuere Versionen unterstützen keine Vorschaubilder für HEIC-Dateien mehr.',
+        p:  'Nativer HEIC-Support, schnelle Miniaturbildextraktion.' },
+      { label: 'Backup-Geschwindigkeit',
+        sp: 'Langsame Uploads — nur 2 Fotos gleichzeitig.',
+        p:  'Schnelles Backup — bis zu 20 gleichzeitige Uploads.' },
+    ],
     'faq.title': 'Häufige Fragen', 'faq.contact': 'Fragen oder Vorschläge? Kontaktieren Sie uns',
     'faq.items': [
       { q: 'Welche NAS-Geräte unterstützt Phonas?', a: 'Phonas verbindet sich über das Standard-SMB-Protokoll und unterstützt jedes Gerät mit aktiviertem SMB, einschließlich Synology, QNAP, TrueNAS, OpenWrt, Windows-Freigaben, macOS-Freigaben und mehr.' },
       { q: 'Welche Fotoformate werden unterstützt?', a: 'Derzeit unterstützt: JPEG, HEIC/HIF, PNG, RAW (DNG, ARW), MP4, MOV.' },
       { q: 'Wie verbinde ich mich mit meinem NAS?', a: 'Fügen Sie in der App einen Server hinzu und geben Sie Ihre SMB-Serveradresse, Ihren Benutzernamen und Ihr Passwort ein. Stellen Sie sicher, dass sich Ihr Gerät im selben lokalen Netzwerk wie Ihr NAS befindet oder dass der Fernzugriff konfiguriert ist.' },
-      { q: 'Was passiert nach dem kostenlosen Test?', a: 'Nach dem 3-tägigen kostenlosen Test können Sie ohne Kauf nur auf die lokale Fotobibliothek zugreifen.' },
+      { q: 'Was ist in der kostenlosen Version enthalten?', a: 'Die kostenlose Version erlaubt 1 Verbindung und das dauerhafte kostenlose Durchsuchen aller Fotos und Videos. Nach dem Kauf sind unbegrenzte Verbindungen, Foto-Backup und Kartenansicht verfügbar.' },
     ],
     'features.items': [
       { title: 'Maximale Kompatibilität', desc: 'Direktverbindung über das SMB-Protokoll. Keine Serversoftware erforderlich, kein Anbieter-Lock-in. Wenn es SMB unterstützt, funktioniert es mit Phonas.' },
@@ -563,15 +801,36 @@ const T = {
     'hero.tagline': 'Tus fotos del NAS, siempre a mano',
     'hero.cta': 'Descargar en App Store',
     'features.title': 'Por qué Phonas',
-    'pricing.title': 'Precio sencillo', 'pricing.subtitle': 'Compra una vez, úsalo para siempre',
-    'pricing.trial': '3 días de prueba gratuita', 'pricing.price': '$6.99',
-    'pricing.note': 'Compra única, sin suscripción', 'pricing.cta': 'Obtener en App Store',
+    'pricing.title': 'Precios',
+    'pricing.free.name': 'Gratis', 'pricing.free.price': '$0',
+    'pricing.free.note': 'Para siempre',
+    'pricing.free.features': ['Ver fotos y vídeos en calidad nativa', 'Máximo 1 conexión'],
+    'pricing.paid.name': 'Completo', 'pricing.paid.price': '$6.99',
+    'pricing.paid.note': 'Compra única, sin suscripción',
+    'pricing.paid.features': ['Todo lo incluido en Gratis', 'Conexiones ilimitadas', 'Copia de seguridad al NAS', 'Vista de mapa', 'Más en futuras actualizaciones'],
+    'pricing.compare.title': 'Comparar Synology Photos',
+    'pricing.compare.sp': 'Synology Photos',
+    'pricing.compare.p': 'Phonas',
+    'pricing.compare.rows': [
+      { label: 'Arquitectura',
+        sp: 'Requiere app en el servidor. Solo funciona con dispositivos Synology.',
+        p:  'Sin software de servidor. Compatible con cualquier dispositivo SMB.' },
+      { label: 'Miniaturas',
+        sp: 'El servidor genera una miniatura por foto, consumiendo almacenamiento extra. Las vistas previas transcodificadas pierden calidad.',
+        p:  'Lee las miniaturas integradas en los archivos directamente — sin espacio extra. Calidad nativa con HDR completo.' },
+      { label: 'HEIC',
+        sp: 'Las versiones nuevas ya no generan miniaturas para archivos HEIC.',
+        p:  'Soporte nativo de HEIC con extracción rápida de miniaturas.' },
+      { label: 'Velocidad de copia',
+        sp: 'Subidas lentas — solo 2 fotos simultáneas.',
+        p:  'Copia de alta velocidad — hasta 20 subidas simultáneas.' },
+    ],
     'faq.title': 'Preguntas frecuentes', 'faq.contact': '¿Preguntas o sugerencias? Contáctanos',
     'faq.items': [
       { q: '¿Qué dispositivos NAS soporta Phonas?', a: 'Phonas se conecta mediante el protocolo SMB estándar y admite cualquier dispositivo con SMB habilitado, incluidos Synology, QNAP, TrueNAS, OpenWrt, carpetas compartidas de Windows, uso compartido de macOS y más.' },
       { q: '¿Qué formatos de foto se admiten?', a: 'Actualmente admitidos: JPEG, HEIC/HIF, PNG, RAW (DNG, ARW), MP4, MOV.' },
       { q: '¿Cómo me conecto a mi NAS?', a: 'Agrega un servidor en la app e ingresa la dirección de tu servidor SMB, nombre de usuario y contraseña. Asegúrate de que tu dispositivo esté en la misma red local que tu NAS, o que el acceso remoto esté configurado.' },
-      { q: '¿Qué pasa después de la prueba gratuita?', a: 'Tras los 3 días de prueba gratuita, solo podrás acceder a la biblioteca de fotos local si no realizas la compra.' },
+      { q: '¿Qué incluye la versión gratuita?', a: 'La versión gratuita permite añadir 1 conexión y explorar todas tus fotos y vídeos gratis para siempre. Con una compra única se desbloquean las conexiones ilimitadas, la copia de seguridad y la vista de mapa.' },
     ],
     'features.items': [
       { title: 'Compatibilidad máxima', desc: 'Conexión directa mediante protocolo SMB. No se necesita software de servidor, sin dependencia de proveedores. Si admite SMB, funciona con Phonas.' },
@@ -586,15 +845,36 @@ const T = {
     'hero.tagline': 'Фото с NAS всегда под рукой',
     'hero.cta': 'Загрузить в App Store',
     'features.title': 'Почему Phonas',
-    'pricing.title': 'Простые цены', 'pricing.subtitle': 'Купите один раз, используйте навсегда',
-    'pricing.trial': '3 дня бесплатно', 'pricing.price': '₽599',
-    'pricing.note': 'Разовая покупка, без подписки', 'pricing.cta': 'Получить в App Store',
+    'pricing.title': 'Цены',
+    'pricing.free.name': 'Бесплатно', 'pricing.free.price': '₽0',
+    'pricing.free.note': 'Навсегда',
+    'pricing.free.features': ['Просмотр фото и видео в нативном качестве', 'До 1 подключения'],
+    'pricing.paid.name': 'Полная версия', 'pricing.paid.price': '₽599',
+    'pricing.paid.note': 'Разовая покупка, без подписки',
+    'pricing.paid.features': ['Всё из бесплатной версии', 'Неограниченные подключения', 'Резервное копирование на NAS', 'Просмотр карты', 'Больше в будущих обновлениях'],
+    'pricing.compare.title': 'Сравнение с Synology Photos',
+    'pricing.compare.sp': 'Synology Photos',
+    'pricing.compare.p': 'Phonas',
+    'pricing.compare.rows': [
+      { label: 'Архитектура',
+        sp: 'Требует серверное приложение. Работает только с устройствами Synology.',
+        p:  'Серверное ПО не нужно. Работает с любым устройством, поддерживающим SMB.' },
+      { label: 'Миниатюры',
+        sp: 'Сервер генерирует миниатюру для каждого фото, занимая дополнительное место. Перекодированные превью теряют качество.',
+        p:  'Читает встроенные миниатюры прямо из файлов — без дополнительного места. Нативное качество с полной поддержкой HDR.' },
+      { label: 'HEIC',
+        sp: 'Новые версии больше не генерируют миниатюры для файлов HEIC.',
+        p:  'Нативная поддержка HEIC, быстрое извлечение миниатюр.' },
+      { label: 'Скорость бэкапа',
+        sp: 'Медленная загрузка — только 2 фото одновременно.',
+        p:  'Быстрый бэкап — до 20 одновременных загрузок.' },
+    ],
     'faq.title': 'Часто задаваемые вопросы', 'faq.contact': 'Есть вопросы или предложения? Напишите нам',
     'faq.items': [
       { q: 'Какие устройства NAS поддерживает Phonas?', a: 'Phonas подключается по стандартному протоколу SMB и поддерживает любые устройства с включённым SMB, включая Synology, QNAP, TrueNAS, OpenWrt, общие папки Windows, общий доступ macOS и другие.' },
       { q: 'Какие форматы фото поддерживаются?', a: 'В настоящее время поддерживаются: JPEG, HEIC/HIF, PNG, RAW (DNG, ARW), MP4, MOV.' },
       { q: 'Как подключиться к NAS?', a: 'Добавьте сервер в приложении и введите адрес SMB-сервера, имя пользователя и пароль. Убедитесь, что ваше устройство находится в той же локальной сети, что и NAS, или настроен удалённый доступ.' },
-      { q: 'Что происходит после бесплатного пробного периода?', a: 'После 3-дневного бесплатного пробного периода без покупки вы сможете получить доступ только к локальной медиатеке.' },
+      { q: 'Что доступно бесплатно?', a: 'Бесплатная версия позволяет добавить 1 подключение и просматривать все фото и видео бесплатно навсегда. После покупки открываются неограниченные подключения, резервное копирование и просмотр карты.' },
     ],
     'features.items': [
       { title: 'Максимальная совместимость', desc: 'Прямое подключение по протоколу SMB. Серверное программное обеспечение не требуется, нет привязки к поставщику. Если поддерживается SMB — работает с Phonas.' },
@@ -609,15 +889,36 @@ const T = {
     'hero.tagline': 'صورك على NAS، في متناول يدك دائماً',
     'hero.cta': 'تنزيل من App Store',
     'features.title': 'لماذا Phonas',
-    'pricing.title': 'سعر بسيط', 'pricing.subtitle': 'اشترِ مرة واحدة، استخدم للأبد',
-    'pricing.trial': 'تجربة مجانية 3 أيام', 'pricing.price': '$6.99',
-    'pricing.note': 'شراء لمرة واحدة، بدون اشتراك', 'pricing.cta': 'احصل عليه من App Store',
+    'pricing.title': 'الأسعار',
+    'pricing.free.name': 'مجاني', 'pricing.free.price': '$0',
+    'pricing.free.note': 'للأبد',
+    'pricing.free.features': ['تصفح الصور والفيديو بجودة أصلية', 'اتصال واحد كحد أقصى'],
+    'pricing.paid.name': 'كامل', 'pricing.paid.price': '$6.99',
+    'pricing.paid.note': 'شراء لمرة واحدة، بدون اشتراك',
+    'pricing.paid.features': ['كل ما في النسخة المجانية', 'اتصالات غير محدودة', 'نسخ احتياطي للصور إلى NAS', 'عرض الخريطة', 'المزيد في التحديثات القادمة'],
+    'pricing.compare.title': 'مقارنة مع Synology Photos',
+    'pricing.compare.sp': 'Synology Photos',
+    'pricing.compare.p': 'Phonas',
+    'pricing.compare.rows': [
+      { label: 'البنية',
+        sp: 'يتطلب تطبيقاً على الخادم. يعمل فقط مع أجهزة Synology.',
+        p:  'لا يحتاج برنامجاً على الخادم. يعمل مع أي جهاز يدعم SMB.' },
+      { label: 'الصور المصغّرة',
+        sp: 'يُنشئ الخادم صورة مصغّرة لكل صورة مستهلكاً مساحة إضافية. الجودة تتراجع بعد الترميز.',
+        p:  'يقرأ الصور المصغّرة المضمّنة مباشرة من الملفات دون مساحة إضافية. عرض بجودة أصلية مع دعم كامل لـ HDR.' },
+      { label: 'HEIC',
+        sp: 'الإصدارات الجديدة لا تُنشئ صوراً مصغّرة لملفات HEIC.',
+        p:  'دعم أصلي لـ HEIC مع استخراج سريع للصور المصغّرة.' },
+      { label: 'سرعة النسخ الاحتياطي',
+        sp: 'رفع بطيء — صورتان فقط في آنٍ واحد.',
+        p:  'نسخ احتياطي سريع — حتى 20 صورة في وقت واحد.' },
+    ],
     'faq.title': 'الأسئلة الشائعة', 'faq.contact': 'هل لديك أسئلة أو اقتراحات؟ تواصل معنا',
     'faq.items': [
       { q: 'ما أجهزة NAS التي يدعمها Phonas؟', a: 'يتصل Phonas عبر بروتوكول SMB القياسي ويدعم أي جهاز يدعم SMB، بما في ذلك Synology وQNAP وTrueNAS وOpenWrt والمجلدات المشتركة على Windows ومشاركة macOS وغيرها.' },
       { q: 'ما صيغ الصور المدعومة؟', a: 'المدعوم حالياً: JPEG وHEIC/HIF وPNG وRAW (DNG وARW) وMP4 وMOV.' },
       { q: 'كيف أتصل بـ NAS الخاص بي؟', a: 'أضف خادماً في التطبيق وأدخل عنوان خادم SMB واسم المستخدم وكلمة المرور. تأكد من أن جهازك على نفس الشبكة المحلية مع NAS أو أن الوصول عن بُعد مُهيَّأ.' },
-      { q: 'ماذا يحدث بعد انتهاء التجربة المجانية؟', a: 'بعد 3 أيام من التجربة المجانية، لن تتمكن إلا من الوصول إلى مكتبة الصور المحلية إذا لم تشترِ.' },
+      { q: 'ما الذي يتضمنه الإصدار المجاني؟', a: 'يتيح الإصدار المجاني إضافة اتصال واحد وتصفح جميع الصور والفيديوهات مجاناً للأبد. بعد الشراء تصبح الاتصالات غير محدودة والنسخ الاحتياطي وعرض الخريطة متاحة.' },
     ],
     'features.items': [
       { title: 'أقصى توافقية', desc: 'اتصال مباشر عبر بروتوكول SMB. لا حاجة لبرامج خادم، لا تبعية لأي علامة تجارية. إذا كان يدعم SMB، فهو يعمل مع Phonas.' },
@@ -654,7 +955,7 @@ function applyLang(lang) {
   // zh-Hant: override price by browser locale (HK vs TW)
   if (lang === 'zh-Hant') {
     const locale = navigator.language || '';
-    if (locale === 'zh-HK') t['pricing.price'] = 'HK$58';
+    if (locale === 'zh-HK') { t['pricing.paid.price'] = 'HK$58'; t['pricing.free.price'] = 'HK$0'; }
   }
   document.documentElement.lang = lang;
   document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
@@ -664,9 +965,10 @@ function applyLang(lang) {
     const key = el.dataset.i18n;
     if (t[key] !== undefined) el.textContent = t[key];
   });
-  // Re-render feature list & FAQ with current lang
+  // Re-render feature list, FAQ, and plan features with current lang
   renderList();
   renderFaq();
+  renderPlanFeatures(t);
 }
 
 function setLang(lang) { localStorage.setItem('phonas-lang', lang); applyLang(lang); }
@@ -704,6 +1006,44 @@ function renderList() {
             </div>
         </div>
     `).join('');
+}
+
+function renderPlanFeatures(t) {
+    const freeEl = document.getElementById('freePlanFeatures');
+    const paidEl = document.getElementById('paidPlanFeatures');
+    if (freeEl && t['pricing.free.features']) {
+        freeEl.innerHTML = t['pricing.free.features'].map((f, i) =>
+            `<li><span class="check">${i === 0 ? '✓' : '—'}</span>${f}</li>`
+        ).join('');
+    }
+    if (paidEl && t['pricing.paid.features']) {
+        paidEl.innerHTML = t['pricing.paid.features'].map(f =>
+            `<li><span class="check">✓</span>${f}</li>`
+        ).join('');
+    }
+
+    const tableEl = document.getElementById('comparisonTable');
+    const rows = t['pricing.compare.rows'];
+    if (tableEl && rows) {
+        const spLabel = t['pricing.compare.sp'] || 'Synology Photos';
+        const pLabel  = t['pricing.compare.p']  || 'Phonas';
+        tableEl.innerHTML = `
+            <thead>
+                <tr>
+                    <th></th>
+                    <th class="col-sp">${spLabel}</th>
+                    <th class="col-p">${pLabel}</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${rows.map(r => `
+                <tr>
+                    <td>${r.label}</td>
+                    <td class="col-sp">${r.sp}</td>
+                    <td class="col-p">${r.p}</td>
+                </tr>`).join('')}
+            </tbody>`;
+    }
 }
 
 function renderFaq() {
